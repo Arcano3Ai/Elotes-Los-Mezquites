@@ -14,6 +14,15 @@ def process_all_menu_images():
     im_cheetos_opt.save(os.path.join(out_menu, 'cheetos-flamin-elote.jpg'), 'JPEG', quality=90, subsampling=0)
     im_cheetos_opt.save(os.path.join(out_menu, 'cheetos-flamin-elote.webp'), 'WEBP', quality=85)
 
+    # 1.1 Tostitos con Elote
+    if os.path.exists(os.path.join(menu_dir, 'tostitosconelote.jpg')):
+        print("Procesando Tostitos con Elote...")
+        im_tostitos = Image.open(os.path.join(menu_dir, 'tostitosconelote.jpg')).convert('RGB')
+        im_tostitos.save(os.path.join(out_menu, 'tostitos-elote-full.jpg'), 'JPEG', quality=92, subsampling=0)
+        im_tostitos_opt = ImageOps.fit(im_tostitos, (1200, 800), Image.Resampling.LANCZOS)
+        im_tostitos_opt.save(os.path.join(out_menu, 'tostitos-elote.jpg'), 'JPEG', quality=90, subsampling=0)
+        im_tostitos_opt.save(os.path.join(out_menu, 'tostitos-elote.webp'), 'WEBP', quality=85)
+
     # 2. Conchitas Encanto con Elote
     print("Procesando Conchitas con Elote...")
     im_conchitas = Image.open(os.path.join(menu_dir, 'conchitasconelote.jpg')).convert('RGB')
