@@ -1,32 +1,43 @@
 # 🌽 Elotes Los Mezquites — Landing Page Oficial
 
-> *"Elotes con alma mexicana. El sabor de siempre, en un lugar para disfrutar."*
+> *"Entre mezquites sabe mejor. El sabor de siempre, en un lugar para disfrutar."*
 
 Landing page oficial de **Elotes Los Mezquites**, un espacio gastronómico mexicano en Agua Fría, Apodaca, Nuevo León. Diseñada con una dirección de arte cinematográfica inspirada en la convivencia nocturna bajo los árboles mezquites, las fogatas, la madera rústica y el maíz artesanal.
 
 ---
 
-## 📋 Menú Oficial Integrado
+## 📋 Menú Oficial con Precios
 
-El sitio cuenta con la carta completa estructurada en 3 bloques de alta conversión gastronómica:
+### 01. 🌽 ELOTES TRADICIONALES
+| Producto | Descripción | Precio |
+|---|---|---|
+| **Elote asado** | Elote a las brasas, con limón, sal y chile al gusto. | **$50** |
+| **Elote cocido** | Elote tradicional preparado al gusto. | **$50** |
 
-### 🌽 1. Los Tradicionales
-* **Elote asado:** Elote a las brasas, con limón, sal y chile al gusto.
-* **Elote cocido:** Elote tradicional preparado al gusto.
-* **Elote preparado:** Elote con mayonesa, crema, queso y chile.
+### 02. 🥣 ELOTE EN VASO
+| Presentación | Descripción | Precio |
+|---|---|---|
+| **Vaso chico** | Porción individual con crema, queso y chile al gusto. | **$45** |
+| **Vaso mediano** | Abundante grano tierno, caldo aromático y aderezos. | **$60** |
 
-### 🔥 2. Los Mezquites Especiales
-* **Tostitos con elote:** Tostitos preparados con esquites, crema, queso y salsa.
-* **Conchitas con elote:** Conchitas bañadas con elote, crema y queso *(orgullo norteño)*.
-* **Doritos con elote:** Doritos Nacho con elote preparado.
-* **Cheetos con elote:** Cheetos Flamin' Hot con esquites y aderezos.
-* **Ruffles con elote:** Ruffles con elote, queso y crema.
-* **Takis con elote:** Takis Fuego con esquites y salsa.
+### 03. 🔥 LOS MEZQUITES ESPECIALES
+| Producto | Descripción | Precio |
+|---|---|---|
+| **Tostitos con elote** | Tostitos preparados con esquites, crema, queso y salsa. | **$85** |
+| **Conchitas con elote** | Conchitas bañadas con elote, crema y queso *(clásico regio)*. | **$85** |
+| **Doritos con elote** | Doritos Nacho con elote preparado. | **$85** |
+| **Cheetos con elote** | Cheetos Flamin' Hot con esquites y aderezos. | **$85** |
+| **Ruffles con elote** | Ruffles con elote, queso y crema. | **$85** |
+| **Takis con elote** | Takis Fuego con esquites y salsa. | **$85** |
 
-### 🧀 3. Extras, Complementos y Bebidas (Sección Compacta)
-* **Personaliza tu antojo:** Mayonesa, Crema, Queso amarillo fundido, Queso blanco rallado, Mantequilla, Limón.
-* **Bebidas bien frías:** Coca-Cola, Coca-Cola sin azúcar, Sprite, Fanta y Agua natural.
-* **Acción directa:** Cada producto cuenta con botón de pedido directo vía WhatsApp.
+### 04. 🥤 BEBIDAS & EXTRAS
+* **Coca-Cola:** $30
+* **Coca-Cola sin azúcar:** $30
+* **Sprite:** $30
+* **Fanta:** $30
+* **Agua natural:** $20
+* **Personaliza tu antojo (Extras):** Mayonesa, Crema, Queso amarillo fundido, Queso blanco rallado, Mantequilla, Limón.
+* **Conversión directa:** Botón integrado en cada producto con enlace a WhatsApp para ordenar con el precio ya calculado.
 
 ---
 

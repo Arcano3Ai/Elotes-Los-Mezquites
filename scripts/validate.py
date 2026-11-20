@@ -51,10 +51,16 @@ if missing:
 else:
     print(f"\n¡Todos los {len(all_assets)} recursos locales enlazados existen correctamente!")
 
-print("\n=== 4. Validando consistencia NAP y requisitos ===")
+print("\n=== 4. Validando consistencia NAP, precios y requisitos ===")
 assert "Morelos 654" in content, "Dirección Morelos 654 debe estar en el HTML"
 assert "Agua Fría, Apodaca" in content, "Agua Fría, Apodaca debe estar en el HTML"
 assert "81 2191 2778" in content, "Teléfono 81 2191 2778 debe estar en el HTML"
 assert "528121912778" in content, "WhatsApp wa.me debe tener el número correcto"
-assert "Elotes con alma mexicana" in content, "Slogan oficial debe estar presente"
-print("Validación NAP y de marca completada con éxito 100%.")
+assert "Entre mezquites sabe mejor" in content, "Nuevo slogan oficial debe estar presente"
+assert "$50" in content, "Precio $50 para Elotes Tradicionales debe estar presente"
+assert "$45" in content, "Precio $45 para Vaso Chico debe estar presente"
+assert "$60" in content, "Precio $60 para Vaso Mediano debe estar presente"
+assert "$85" in content, "Precio $85 para Especiales debe estar presente"
+assert "$30" in content, "Precio $30 para Refrescos debe estar presente"
+assert "$20" in content, "Precio $20 para Agua Natural debe estar presente"
+print("Validación NAP, de marca y precios oficiales completada con éxito 100%.")
