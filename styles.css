@@ -271,10 +271,14 @@ ul {
   transition: all var(--transition-base);
 }
 
-.btn-header-facebook svg {
+.btn-header-facebook svg,
+.btn-header-facebook .icon-facebook-custom {
   flex-shrink: 0;
-  color: #1877F2;
-  transition: transform var(--transition-fast), color var(--transition-fast);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: contain;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
 }
 
 .btn-header-facebook:hover {
@@ -285,9 +289,10 @@ ul {
   box-shadow: 0 4px 16px rgba(24, 119, 242, 0.45);
 }
 
-.btn-header-facebook:hover svg {
-  color: #FFFFFF;
-  transform: scale(1.08);
+.btn-header-facebook:hover svg,
+.btn-header-facebook:hover .icon-facebook-custom {
+  transform: scale(1.12);
+  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.4));
 }
 
 /* Botón de Facebook General / Acciones / Bloques */
@@ -311,13 +316,20 @@ ul {
   box-shadow: 0 6px 22px rgba(24, 119, 242, 0.55);
 }
 
-.btn-facebook svg {
+.btn-facebook svg,
+.btn-facebook .icon-facebook-custom {
   flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
   transition: transform var(--transition-fast);
 }
 
-.btn-facebook:hover svg {
-  transform: scale(1.1);
+.btn-facebook:hover svg,
+.btn-facebook:hover .icon-facebook-custom {
+  transform: scale(1.14);
 }
 
 .btn-copy-address {
@@ -2799,9 +2811,13 @@ ul {
   text-decoration: none;
 }
 
-.footer-facebook-link svg {
+.footer-facebook-link svg,
+.footer-facebook-link .icon-facebook-custom {
   flex-shrink: 0;
-  color: #1877F2;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: contain;
   transition: transform var(--transition-fast);
 }
 
@@ -2810,8 +2826,9 @@ ul {
   transform: translateX(3px);
 }
 
-.footer-facebook-link:hover svg {
-  transform: scale(1.15);
+.footer-facebook-link:hover svg,
+.footer-facebook-link:hover .icon-facebook-custom {
+  transform: scale(1.18);
 }
 
 .footer-divider {
