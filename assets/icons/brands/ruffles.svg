@@ -1,0 +1,8 @@
+<svg viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ruffles">
+  <!-- Wavy Ridge Ribbon Backdrop -->
+  <path d="M8 38 Q 40 44, 80 38 T 152 38 L 156 14 Q 120 8, 80 14 T 4 14 Z" fill="#0071B2" stroke="#FFFFFF" stroke-width="1.5"/>
+  <!-- Ridges wave accents -->
+  <path d="M12 33 Q 40 39, 80 33 T 148 33" stroke="#004D7A" stroke-width="2" fill="none"/>
+  <!-- 3D Red Lettering -->
+  <text x="80" y="33" fill="#ED1C24" font-family="'Impact', 'Arial Black', sans-serif" font-size="26" font-weight="900" font-style="italic" text-anchor="middle" letter-spacing="1" stroke="#FFFFFF" stroke-width="2.5" paint-order="stroke fill">RUFFLES</text>
+</svg>

@@ -969,6 +969,122 @@ ul {
   background: rgba(40, 10, 10, 0.9);
 }
 
+/* Badges con Colores e Identidades Oficiales de Marca */
+.item-badge.badge-brand-tostitos {
+  background: rgba(223, 27, 36, 0.92);
+  color: #FFFFFF;
+  border-color: #FFC20E;
+  box-shadow: 0 2px 10px rgba(223, 27, 36, 0.4);
+}
+
+.item-badge.badge-brand-conchitas {
+  background: rgba(200, 16, 46, 0.94);
+  color: #FFFFFF;
+  border-color: #FDB813;
+  box-shadow: 0 2px 10px rgba(200, 16, 46, 0.4);
+}
+
+.item-badge.badge-brand-doritos {
+  background: rgba(222, 78, 28, 0.94);
+  color: #FFFFFF;
+  border-color: #FEA515;
+  box-shadow: 0 2px 10px rgba(222, 78, 28, 0.4);
+}
+
+.item-badge.badge-brand-cheetos {
+  background: rgba(247, 146, 57, 0.95);
+  color: #1F1A17;
+  font-weight: 800;
+  border-color: #FFF100;
+  box-shadow: 0 2px 10px rgba(247, 146, 57, 0.4);
+}
+
+.item-badge.badge-brand-ruffles {
+  background: rgba(0, 113, 178, 0.94);
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  box-shadow: 0 2px 10px rgba(0, 113, 178, 0.4);
+}
+
+.item-badge.badge-brand-takis {
+  background: rgba(78, 21, 136, 0.95);
+  color: #FFDE00;
+  border-color: #E0201D;
+  box-shadow: 0 2px 12px rgba(78, 21, 136, 0.5);
+}
+
+/* Logos Oficiales en Tarjetas y Configurador */
+.brand-mark-logo {
+  display: inline-block;
+  height: 20px;
+  width: auto;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  transition: transform var(--transition-fast);
+}
+
+.menu-item-card:hover .brand-mark-logo {
+  transform: scale(1.06);
+}
+
+.item-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.option-badge.brand-tostitos {
+  background: rgba(223, 27, 36, 0.2);
+  color: #ff7d82;
+  border: 1px solid rgba(223, 27, 36, 0.4);
+}
+
+.option-badge.brand-conchitas {
+  background: rgba(200, 16, 46, 0.2);
+  color: #ff8595;
+  border: 1px solid rgba(200, 16, 46, 0.4);
+}
+
+.option-badge.brand-doritos {
+  background: rgba(222, 78, 28, 0.2);
+  color: #ffa177;
+  border: 1px solid rgba(222, 78, 28, 0.4);
+}
+
+.option-badge.brand-cheetos {
+  background: rgba(247, 146, 57, 0.2);
+  color: #ffbb75;
+  border: 1px solid rgba(247, 146, 57, 0.4);
+}
+
+.option-badge.brand-ruffles {
+  background: rgba(0, 113, 178, 0.2);
+  color: #79beff;
+  border: 1px solid rgba(0, 113, 178, 0.4);
+}
+
+.option-badge.brand-takis {
+  background: rgba(78, 21, 136, 0.35);
+  color: #ffd84d;
+  border: 1px solid rgba(255, 222, 0, 0.4);
+}
+
+.option-brand-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.option-brand-logo {
+  height: 18px;
+  width: auto;
+  opacity: 0.95;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+}
+
 .item-media .btn-view-photo {
   position: absolute;
   bottom: 0.85rem;

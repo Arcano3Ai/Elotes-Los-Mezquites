@@ -1,0 +1,16 @@
+<svg viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Takis Fuego">
+  <defs>
+    <linearGradient id="takisPurple" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4E1588"/>
+      <stop offset="100%" stop-color="#22073E"/>
+    </linearGradient>
+  </defs>
+  <!-- Slanted Polygon Backdrop -->
+  <polygon points="10,42 22,8 150,8 138,42" fill="url(#takisPurple)" stroke="#FFDE00" stroke-width="2"/>
+  <!-- Fire Flame Spiral Accent -->
+  <path d="M116 13 C124 10, 134 16, 129 24 C124 32, 112 30, 116 22" stroke="#E0201D" stroke-width="2.5" fill="none"/>
+  <!-- Takis Neon Wordmark -->
+  <text x="74" y="34" fill="#FFDE00" font-family="'Impact', 'Arial Black', sans-serif" font-size="27" font-weight="900" font-style="italic" text-anchor="middle" letter-spacing="1.5" stroke="#4E1588" stroke-width="1.2" paint-order="stroke fill">TAKIS</text>
+  <!-- Fuego Tag -->
+  <text x="122" y="38" fill="#E0201D" font-family="'Arial Black', sans-serif" font-size="7.5" font-weight="900" font-style="italic">FUEGO</text>
+</svg>

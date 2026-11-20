@@ -1,0 +1,23 @@
+<svg viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tostitos">
+  <!-- Tostitos Official Brandmark -->
+  <!-- T -->
+  <path d="M6 14 H28 V20 H20 V44 H14 V20 H6 V14Z" fill="#DF1B24"/>
+  <!-- O -->
+  <ellipse cx="38" cy="29" rx="10" ry="12" fill="none" stroke="#DF1B24" stroke-width="5"/>
+  <!-- S -->
+  <path d="M51 36 C52 40 56 42 61 42 C66 42 69 39 69 36 C69 32 64 30 59 28 C53 26 49 24 49 19 C49 14 54 11 60 11 C66 11 71 14 72 19 L67 21 C66 18 63 16 60 16 C57 16 55 17 55 19 C55 21 58 22 62 24 C68 26 75 28 75 35 C75 42 69 47 61 47 C53 47 48 42 46 36 L51 36Z" fill="#DF1B24"/>
+  <!-- T (sharing chip) -->
+  <path d="M78 14 H94 V19 H89 V44 H83 V19 H78 V14Z" fill="#DF1B24"/>
+  <!-- Tortilla Chip in Gold between T and T with salsa bowl dot -->
+  <polygon points="91,12 105,12 98,2" fill="#FFC20E" stroke="#DF1B24" stroke-width="1.2"/>
+  <circle cx="98" cy="6" r="1.5" fill="#DF1B24"/>
+  <!-- I with salsa bowl dot -->
+  <circle cx="98" cy="15" r="3.5" fill="#DF1B24"/>
+  <path d="M96 21 H100 V44 H96 V21Z" fill="#DF1B24"/>
+  <!-- T (second sharing) -->
+  <path d="M103 14 H119 V19 H114 V44 H108 V19 H103 V14Z" fill="#DF1B24"/>
+  <!-- O -->
+  <ellipse cx="129" cy="29" rx="10" ry="12" fill="none" stroke="#DF1B24" stroke-width="5"/>
+  <!-- S -->
+  <path d="M142 36 C143 40 147 42 151 42 C155 42 157 39 157 36 C157 32 153 30 149 28 C144 26 141 24 141 19 C141 14 145 11 150 11 C155 11 159 14 160 19 L155 21 C154 18 152 16 150 16 C147 16 146 17 146 19 C146 21 148 22 152 24 C157 26 163 28 163 35 C163 42 158 47 151 47 C144 47 140 42 138 36 L142 36Z" fill="#DF1B24"/>
+</svg>

@@ -51,15 +51,15 @@ Siguiendo las mejores prácticas de ingeniería de software senior:
 | **Vaso chico** | Porción individual con crema, queso y chile al gusto. | **$45** |
 | **Vaso mediano** | Abundante grano tierno, caldo aromático y aderezos. | **$60** |
 
-### 03. 🔥 LOS MEZQUITES ESPECIALES
-| Producto | Descripción | Precio |
-|---|---|---|
-| **Tostitos con elote** | Tostitos preparados con esquites, crema, queso y salsa. | **$85** |
-| **Conchitas con elote** | Conchitas bañadas con elote, crema y queso *(clásico regio)*. | **$85** |
-| **Doritos con elote** | Doritos Nacho con elote preparado. | **$85** |
-| **Cheetos con elote** | Cheetos Flamin' Hot con esquites y aderezos. | **$85** |
-| **Ruffles con elote** | Ruffles con elote, queso y crema. | **$85** |
-| **Takis con elote** | Takis Fuego con esquites y salsa. | **$85** |
+### 03. 🔥 LOS MEZQUITES ESPECIALES (Marcas Oficiales Integradas)
+| Producto | Marca Oficial & Fabricante | Descripción | Precio |
+|---|---|---|---|
+| **Tostitos con elote** | **Tostitos®** *(Sabritas / PepsiCo)* | Tostitos preparados con esquites, crema, queso y salsa. | **$85** |
+| **Conchitas con elote** | **Conchitas Encanto®** *(Botanas Encanto, MTY 1957)* | Conchitas bañadas con elote, crema y queso *(Orgullo Regio)*. | **$85** |
+| **Doritos con elote** | **Doritos® Nacho** *(Sabritas / PepsiCo)* | Doritos Nacho con elote preparado. *For the Bold*. | **$85** |
+| **Cheetos con elote** | **Cheetos® Flamin' Hot** *(Sabritas / PepsiCo)* | Cheetos Flamin' Hot con esquites y aderezos. *Dangerously Cheesy*. | **$85** |
+| **Ruffles con elote** | **Ruffles®** *(Sabritas / PepsiCo)* | Ruffles onduladas con elote, queso y crema. *Con Ridges*. | **$85** |
+| **Takis con elote** | **Takis® Fuego** *(Barcel / Grupo Bimbo)* | Takis Fuego con esquites y salsa. *No apto para cobardes*. | **$85** |
 
 ### 04. 🥤 BEBIDAS & EXTRAS
 * **Coca-Cola:** $30
