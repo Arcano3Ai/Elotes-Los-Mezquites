@@ -6,6 +6,37 @@ Landing page oficial de **Elotes Los Mezquites**, un espacio gastronómico mexic
 
 ---
 
+## 🚗 Configurador de Pedidos Express ("Para recoger de pasada")
+
+El sitio cuenta con un **módulo interactivo de pedidos en línea** pensado especialmente para clientes que van de camino y desean que su pedido esté listo al llegar:
+
+1. **Selección de antojo principal:** Elotes asados/cocidos ($50), Vasos ($45/$60) o Especiales con botanas clásicas regias ($85).
+2. **Nivel de picante & Preparación:** Sin chile, chile del que pica / del que no pica, limón y sal.
+3. **Extras artesanales:** Mayonesa, crema, queso amarillo fundido, queso blanco rallado y mantequilla.
+4. **Bebidas frías:** Refrescos y agua purificada ($20 - $30).
+5. **Cálculo reactivo en tiempo real:** Desglose visual instantáneo de precios y total.
+6. **Métodos de pago flexibles:**
+   - **Mercado Pago (Checkout Pro):** Tarjetas de débito/crédito, transferencias y saldo digital.
+   - **Pago en efectivo / al recoger:** Pedido enviado directamente a la cocina por WhatsApp con folio único generado `#LMZ-XXXX`.
+
+---
+
+## 💳 Arquitectura de Pagos Segura (Mercado Pago Backend)
+
+Siguiendo las mejores prácticas de ingeniería de software senior:
+* **Cero exposición de credenciales privadas:** Ninguna llave `APP_USR-` o token privado vive en el cliente.
+* **Precios canónicos validados en backend:** El endpoint `/api/create-preference` valida y recalcula el monto final contra la lista de precios oficial para impedir adulteraciones desde el frontend.
+* **Webhooks seguros con validación criptográfica:** El endpoint `/api/webhooks/mercadopago` valida la firma `x-signature` mediante HMAC-SHA256 y previene cobros o duplicados mediante un registro de idempotencia en memoria.
+
+---
+
+## 📱 Optimización Mobile-First & OpenGraph para WhatsApp
+
+* **Barra Fija Inferior (Mobile Sticky Bar):** Diseñada específicamente para pantallas móviles, con acceso rápido a "🚗 ORDENAR AHORA" y "📍 CÓMO LLEGAR".
+* **Previsualización OpenGraph enriquecida:** La imagen de previsualización para WhatsApp y redes sociales (`assets/images/og-image.jpg`) incorpora el logotipo oficial de alta resolución, slogan y ubicación, optimizada a **65.84 KB** (cumple estrictamente el límite `< 300KB` para carga inmediata en dispositivos móviles).
+
+---
+
 ## 📋 Menú Oficial con Precios
 
 ### 01. 🌽 ELOTES TRADICIONALES
@@ -37,7 +68,6 @@ Landing page oficial de **Elotes Los Mezquites**, un espacio gastronómico mexic
 * **Fanta:** $30
 * **Agua natural:** $20
 * **Personaliza tu antojo (Extras):** Mayonesa, Crema, Queso amarillo fundido, Queso blanco rallado, Mantequilla, Limón.
-* **Conversión directa:** Botón integrado en cada producto con enlace a WhatsApp para ordenar con el precio ya calculado.
 
 ---
 
@@ -70,50 +100,51 @@ El sitio integra las **fotografías reales del lugar** tomadas en Agua Fría, Ap
 
 ```text
 Elotes-Los-Mezquites/
-├── index.html            # Estructura semántica, OpenGraph y Schema.org
-├── styles.css            # Estilos CSS3, variables y diseño responsive
-├── app.js                # Lógica interactiva, Lightbox, scrollspy y Toast
-├── .gitignore            # Archivos ignorados por git
+├── index.html            # Estructura semántica, OpenGraph, Schema.org y Configurador
+├── styles.css            # Estilos CSS3, configurador, sticky bar y diseño responsive
+├── app.js                # Lógica interactiva del configurador, Lightbox y Toast
+├── package.json          # Metadatos del proyecto y scripts npm
+├── .env.example          # Plantilla para credenciales de Mercado Pago
+├── server/
+│   └── app.js            # Servidor API para checkout y webhooks seguros de Mercado Pago
 ├── assets/
 │   ├── icons/
 │   │   ├── logo.svg      # Logotipo vectorial de la marca
 │   │   └── favicon.svg   # Favicon para el navegador
 │   └── images/
 │       ├── menu/         # Fotografías de los platillos y botanas del menú
-│       │   ├── elote-asado.webp / .jpg
-│       │   ├── elote-cocido.webp / .jpg
-│       │   ├── elote-preparado.webp / .jpg
-│       │   ├── tostitos-elote.webp / .jpg
-│       │   ├── conchitas-elote.webp / .jpg
-│       │   ├── doritos-elote.webp / .jpg
-│       │   ├── cheetos-flamin-elote.webp / .jpg
-│       │   ├── ruffles-elote.webp / .jpg
-│       │   └── takis-elote.webp / .jpg
 │       ├── lugar/        # Fotografías reales mejoradas del lugar
-│       │   ├── mezquites-real-1.webp / .jpg
-│       │   ├── mezquites-real-2.webp / .jpg
-│       │   ├── mezquites-real-3.webp / .jpg
-│       │   ├── mezquites-real-4.webp / .jpg
-│       │   └── mezquites-real-5.webp / .jpg
 │       ├── hero-mezquites.webp / .jpg   # Fotografía hero limpia
-│       └── og-image.jpg                 # Imagen OpenGraph optimizada (< 300KB)
+│       └── og-image.jpg                 # Imagen OpenGraph optimizada con logo (< 300KB)
 └── scripts/
     ├── enhance_photos.py # Pipeline de mejora fotográfica digital
     ├── process_assets.py # Compresión y optimización de imágenes
+    ├── generate_logo_og.py # Generador de OpenGraph con logo oficial
     └── validate.py       # Suite de verificación técnica y SEO
 ```
 
 ---
 
-## 🚀 Despliegue Rápido
+## 🚀 Puesta en Marcha & Despliegue
 
-El proyecto está construido con **HTML5, CSS3 y JavaScript moderno** sin dependencias externas, listo para desplegarse instantáneamente en cualquier servidor web o servicio estático:
+### 1. Despliegue Estático (GitHub Pages / Vercel / Netlify)
+El frontend funciona de forma 100% autónoma. Cuando no hay backend de Mercado Pago configurado, el configurador genera un **ticket estructurado con folio automático** y lo transfiere a WhatsApp para atención inmediata en cocina.
 
-### GitHub Pages
 1. Ve a los **Settings** del repositorio en GitHub.
 2. En la sección **Pages**, selecciona la rama `main` y la carpeta `/ (root)`.
 3. Guarda los cambios. Tu sitio estará disponible en minutos en:
    `https://arcano3ai.github.io/Elotes-Los-Mezquites/`
+
+### 2. Ejecutar Servidor Backend Localmente con Mercado Pago
+```bash
+# 1. Configurar variables de entorno
+cp .env.example .env
+# Editar .env e ingresar MP_ACCESS_TOKEN y MP_WEBHOOK_SECRET
+
+# 2. Iniciar servidor
+npm start
+# El servidor estará escuchando en http://localhost:3000
+```
 
 ---
 

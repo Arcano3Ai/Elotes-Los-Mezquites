@@ -1,0 +1,18 @@
+{
+  "name": "elotes-los-mezquites-server",
+  "version": "1.0.0",
+  "description": "Servidor backend seguro con integración de Mercado Pago para Elotes Los Mezquites",
+  "main": "server/app.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server/app.js"
+  },
+  "dependencies": {},
+  "keywords": [
+    "elotes",
+    "mercadopago",
+    "mexico"
+  ],
+  "author": "Arcano Solutions",
+  "license": "ISC"
+}

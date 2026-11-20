@@ -1389,8 +1389,562 @@ ul {
 }
 
 /* --------------------------------------------------------------------------
-   SECCIÓN: NUESTRO ESPACIO REAL (FOTOGRAFÍAS AUTÉNTICAS)
+   SECCIÓN: CONFIGURADOR DE PEDIDOS "PARA RECOGER DE PASADA"
    -------------------------------------------------------------------------- */
+.section-pedir {
+  background-color: var(--c-carbon);
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(217, 145, 36, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(56, 33, 22, 0.6) 0%, transparent 60%);
+  padding: clamp(4.5rem, 7vw, 7rem) 0;
+}
+
+.configurador-wrapper {
+  max-width: 900px;
+  margin: 3.5rem auto 0;
+}
+
+.configurador-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.config-step {
+  border: 1px solid rgba(245, 232, 206, 0.14);
+  background: var(--c-madera);
+  border-radius: 18px;
+  padding: 2.2rem;
+  box-shadow: var(--shadow-md);
+  margin: 0;
+}
+
+.step-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--c-crema);
+  padding: 0 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c-maiz);
+  color: var(--c-carbon);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px var(--c-maiz-glow);
+}
+
+/* Selector de Antojo Principal */
+.antojo-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.antojo-option-card {
+  cursor: pointer;
+  position: relative;
+}
+
+.antojo-option-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option-card-inner {
+  background: var(--c-carbon);
+  border: 1.5px solid rgba(245, 232, 206, 0.15);
+  border-radius: 12px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: all var(--transition-normal);
+  height: 100%;
+}
+
+.antojo-option-card:hover .option-card-inner {
+  border-color: rgba(244, 181, 45, 0.5);
+  transform: translateY(-2px);
+}
+
+.antojo-option-card input[type="radio"]:checked + .option-card-inner {
+  border-color: var(--c-maiz);
+  background: rgba(56, 33, 22, 0.95);
+  box-shadow: 0 0 16px rgba(244, 181, 45, 0.35);
+  position: relative;
+}
+
+.antojo-option-card input[type="radio"]:checked + .option-card-inner::after {
+  content: '✓';
+  position: absolute;
+  top: 0.6rem;
+  right: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--c-maiz);
+  font-weight: 900;
+}
+
+.option-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--c-crema-muted);
+  letter-spacing: 0.08em;
+}
+
+.option-badge.special {
+  color: #ff9d5c;
+}
+
+.option-name {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-crema);
+}
+
+.option-price {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--c-maiz);
+  margin-top: auto;
+}
+
+/* Sub-steps de preparación */
+.sub-step-block {
+  margin-bottom: 1.8rem;
+}
+
+.sub-step-block:last-child {
+  margin-bottom: 0;
+}
+
+.sub-step-title {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-crema);
+  margin-bottom: 0.85rem;
+}
+
+.pills-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.pill-radio {
+  cursor: pointer;
+}
+
+.pill-radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pill-radio span {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  background: var(--c-carbon);
+  border: 1px solid rgba(245, 232, 206, 0.2);
+  color: var(--c-crema);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.pill-radio:hover span {
+  border-color: var(--c-maiz);
+}
+
+.pill-radio input[type="radio"]:checked + span {
+  background: var(--c-maiz);
+  color: var(--c-carbon);
+  border-color: var(--c-maiz);
+  font-weight: 700;
+  box-shadow: 0 2px 10px var(--c-maiz-glow);
+}
+
+/* Chips Checkbox de Ingredientes */
+.checkbox-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.chip-checkbox {
+  cursor: pointer;
+}
+
+.chip-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip-checkbox span {
+  display: block;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  background: var(--c-carbon);
+  border: 1px solid rgba(245, 232, 206, 0.15);
+  color: var(--c-crema-muted);
+  font-size: 0.88rem;
+  transition: all var(--transition-fast);
+}
+
+.chip-checkbox input[type="checkbox"]:checked + span {
+  background: rgba(244, 181, 45, 0.15);
+  border-color: var(--c-maiz);
+  color: var(--c-maiz);
+  font-weight: 700;
+}
+
+/* Inputs y Selects */
+.config-input,
+.config-select {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  background: var(--c-carbon);
+  border: 1px solid rgba(245, 232, 206, 0.2);
+  border-radius: 8px;
+  color: var(--c-crema);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.config-input:focus,
+.config-select:focus {
+  outline: none;
+  border-color: var(--c-maiz);
+  box-shadow: 0 0 10px rgba(244, 181, 45, 0.3);
+}
+
+/* Selector de Bebidas */
+.bebidas-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 0.9rem;
+}
+
+.bebida-radio-card {
+  cursor: pointer;
+}
+
+.bebida-radio-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bebida-card-inner {
+  background: var(--c-carbon);
+  border: 1px solid rgba(245, 232, 206, 0.15);
+  border-radius: 10px;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.35rem;
+  transition: all var(--transition-fast);
+}
+
+.bebida-radio-card:hover .bebida-card-inner {
+  border-color: rgba(244, 181, 45, 0.4);
+}
+
+.bebida-radio-card input[type="radio"]:checked + .bebida-card-inner {
+  border-color: var(--c-maiz);
+  background: rgba(56, 33, 22, 0.95);
+  box-shadow: 0 0 12px var(--c-maiz-glow);
+}
+
+.b-icon {
+  font-size: 1.4rem;
+}
+
+.b-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--c-crema);
+}
+
+.b-price {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--c-maiz);
+}
+
+/* Datos del comensal */
+.client-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--c-crema-muted);
+}
+
+/* Resumen y Métodos de Pago */
+.summary-box {
+  background: var(--c-carbon);
+  border: 1px solid rgba(244, 181, 45, 0.3);
+  border-radius: 12px;
+  padding: 1.4rem;
+  margin-bottom: 2rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.98rem;
+  color: var(--c-crema-muted);
+  margin-bottom: 0.5rem;
+}
+
+.summary-val {
+  color: var(--c-crema);
+  font-weight: 600;
+}
+
+.summary-divider {
+  height: 1px;
+  background: rgba(245, 232, 206, 0.1);
+  margin: 0.8rem 0;
+}
+
+.total-row {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--c-crema);
+  margin-bottom: 0;
+}
+
+.total-val {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--c-maiz);
+}
+
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.payment-method-card {
+  cursor: pointer;
+}
+
+.payment-method-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.payment-card-inner {
+  background: var(--c-carbon);
+  border: 1.5px solid rgba(245, 232, 206, 0.15);
+  border-radius: 12px;
+  padding: 1.25rem;
+  height: 100%;
+  transition: all var(--transition-fast);
+}
+
+.payment-method-card:hover .payment-card-inner {
+  border-color: rgba(244, 181, 45, 0.4);
+}
+
+.payment-method-card input[type="radio"]:checked + .payment-card-inner {
+  border-color: var(--c-maiz);
+  background: rgba(56, 33, 22, 0.95);
+  box-shadow: 0 0 15px var(--c-maiz-glow);
+}
+
+.payment-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.pay-logo-badge {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.mp-badge {
+  color: #009EE3;
+}
+
+.cash-badge {
+  color: var(--c-maiz);
+}
+
+.pay-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  background: rgba(245, 232, 206, 0.08);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: var(--c-crema-muted);
+}
+
+.pay-desc {
+  font-size: 0.82rem;
+  color: var(--c-crema-muted);
+  line-height: 1.4;
+}
+
+.submit-order-wrap {
+  text-align: center;
+}
+
+.btn-submit-order {
+  width: 100%;
+  padding: 1.2rem;
+  font-size: 1.05rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(244, 181, 45, 0.4);
+}
+
+.submit-disclaimer {
+  font-size: 0.8rem;
+  color: var(--c-crema-muted);
+  margin-top: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   BARRA FIJA INFERIOR PARA MÓVIL (STICKY ORDER BAR)
+   -------------------------------------------------------------------------- */
+.mobile-sticky-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 998;
+  background: rgba(36, 22, 15, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(244, 181, 45, 0.35);
+  padding: 0.75rem 1rem;
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.mobile-sticky-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.sticky-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.sticky-slogan {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--c-maiz);
+  line-height: 1.2;
+}
+
+.sticky-prompt {
+  font-size: 0.72rem;
+  color: var(--c-crema-muted);
+}
+
+.btn-sticky-order {
+  padding: 0.65rem 1.1rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.nav-highlight {
+  color: var(--c-maiz) !important;
+  font-weight: 700 !important;
+}
+
+.mobile-link-pedir {
+  color: var(--c-maiz) !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-sticky-bar {
+    display: block;
+  }
+
+  body {
+    padding-bottom: 70px;
+  }
+
+  .floating-whatsapp-container {
+    bottom: 5.5rem;
+    right: 1.2rem;
+  }
+
+  .payment-methods-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .antojo-selector-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .config-step {
+    padding: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .antojo-selector-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bebidas-selector-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 .section-espacio {
   background-color: var(--c-carbon);
   background-image: 

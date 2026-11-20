@@ -15,3 +15,7 @@ __pycache__/
 *.py[cod]
 .venv/
 env/
+
+# Credenciales y variables locales
+.env
+.env.local

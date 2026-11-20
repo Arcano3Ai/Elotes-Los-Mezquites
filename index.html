@@ -98,6 +98,7 @@
           <li><a href="#inicio" class="nav-link active">Inicio</a></li>
           <li><a href="#esencia" class="nav-link">Nuestra esencia</a></li>
           <li><a href="#menu" class="nav-link">Menú</a></li>
+          <li><a href="#pedir" class="nav-link nav-highlight">Pedir de Pasada</a></li>
           <li><a href="#espacio" class="nav-link">Nuestro espacio</a></li>
           <li><a href="#experiencia" class="nav-link">La experiencia</a></li>
           <li><a href="#ubicacion" class="nav-link">Ubicación</a></li>
@@ -140,6 +141,7 @@
           <li><a href="#inicio" class="mobile-link">Inicio</a></li>
           <li><a href="#esencia" class="mobile-link">Nuestra esencia</a></li>
           <li><a href="#menu" class="mobile-link">Menú</a></li>
+          <li><a href="#pedir" class="mobile-link mobile-link-pedir">🚗 Pedir de Pasada</a></li>
           <li><a href="#espacio" class="mobile-link">Nuestro espacio</a></li>
           <li><a href="#experiencia" class="mobile-link">La experiencia</a></li>
           <li><a href="#ubicacion" class="mobile-link">Ubicación</a></li>
@@ -771,16 +773,368 @@
               </svg>
             </div>
             <div class="banner-text">
-              <h4>¿Listo para consentirte? Entre mezquites sabe mejor.</h4>
-              <p>Envíanos un WhatsApp con tu pedido y pasa a recogerlo o disfrútalo bajo nuestros árboles.</p>
+              <h4>¿Vienes de pasada por Agua Fría?</h4>
+              <p>Arma tu orden en nuestro configurador express y tenla lista y calientita para recoger sin esperas.</p>
             </div>
           </div>
           <div class="banner-action">
-            <a href="https://wa.me/528121912778?text=%C2%A1Hola!%20Quiero%20hacer%20un%20pedido%20en%20Elotes%20Los%20Mezquites." class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.072-2.18-.543-1.619-.668-2.67-2.316-2.75-2.423-.081-.107-.655-.873-.655-1.664 0-.791.414-1.18.561-1.341.146-.161.32-.201.427-.201.107 0 .213.001.306.006.101.005.236-.039.369.281.139.334.475 1.157.516 1.241.042.083.07.181.014.294-.055.112-.083.182-.164.279-.082.096-.172.215-.246.289-.082.083-.168.173-.072.338.096.165.426.703.914 1.137.628.558 1.158.732 1.323.814.166.083.263.073.361-.039.098-.112.42-.489.532-.656.113-.167.227-.139.381-.083.155.056.985.464 1.155.549.17.085.283.127.324.197.042.07.042.408-.102.813z"/></svg>
-              <span>Pedir por WhatsApp</span>
+            <a href="#pedir" class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+              </svg>
+              <span>CONFIGURAR PEDIDO EXPRESS</span>
             </a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECCIÓN: CONFIGURADOR DE PEDIDOS "PARA RECOGER DE PASADA"
+         Con Pago en Línea (Mercado Pago) o Pago al Recoger
+         ====================================================================== -->
+    <section class="section section-pedir" id="pedir">
+      <div class="container">
+        <div class="section-header text-center reveal-on-scroll">
+          <span class="section-tag">EXPRESS & TAKEAWAY</span>
+          <h2 class="section-title">ORDENA PARA RECOGER DE PASADA</h2>
+          <div class="title-divider centered"></div>
+          <p class="section-subtitle">
+            Personaliza tu elote o botana favorita, escoge la hora de recogida y paga en línea con Mercado Pago o al llegar.
+          </p>
+        </div>
+
+        <div class="configurador-wrapper reveal-on-scroll">
+          <form id="orderForm" class="configurador-form" novalidate>
+            <!-- PASO 1: SELECCIONA TU ANTOJO -->
+            <fieldset class="config-step">
+              <legend class="step-legend">
+                <span class="step-num">1</span>
+                <span>Selecciona tu antojo principal</span>
+              </legend>
+              <div class="antojo-selector-grid">
+                <!-- Tradicionales -->
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="elote-asado" data-price="50" data-name="Elote Asado" checked>
+                  <div class="option-card-inner">
+                    <span class="option-badge">A las brasas</span>
+                    <span class="option-name">Elote Asado</span>
+                    <span class="option-price">$50</span>
+                  </div>
+                </label>
+
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="elote-cocido" data-price="50" data-name="Elote Cocido">
+                  <div class="option-card-inner">
+                    <span class="option-badge">Recién cocido</span>
+                    <span class="option-name">Elote Cocido</span>
+                    <span class="option-price">$50</span>
+                  </div>
+                </label>
+
+                <!-- Vasos -->
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="vaso-chico" data-price="45" data-name="Elote en Vaso Chico">
+                  <div class="option-card-inner">
+                    <span class="option-badge">En vaso</span>
+                    <span class="option-name">Vaso Chico</span>
+                    <span class="option-price">$45</span>
+                  </div>
+                </label>
+
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="vaso-mediano" data-price="60" data-name="Elote en Vaso Mediano">
+                  <div class="option-card-inner">
+                    <span class="option-badge">En vaso</span>
+                    <span class="option-name">Vaso Mediano</span>
+                    <span class="option-price">$60</span>
+                  </div>
+                </label>
+
+                <!-- Especiales con Frituras -->
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="tostitos-elote" data-price="85" data-name="Tostitos con Elote">
+                  <div class="option-card-inner">
+                    <span class="option-badge special">Especial</span>
+                    <span class="option-name">Tostitos con Elote</span>
+                    <span class="option-price">$85</span>
+                  </div>
+                </label>
+
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="conchitas-elote" data-price="85" data-name="Conchitas con Elote">
+                  <div class="option-card-inner">
+                    <span class="option-badge special">Regio</span>
+                    <span class="option-name">Conchitas con Elote</span>
+                    <span class="option-price">$85</span>
+                  </div>
+                </label>
+
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="doritos-elote" data-price="85" data-name="Doritos con Elote">
+                  <div class="option-card-inner">
+                    <span class="option-badge special">Nacho</span>
+                    <span class="option-name">Doritos con Elote</span>
+                    <span class="option-price">$85</span>
+                  </div>
+                </label>
+
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="cheetos-elote" data-price="85" data-name="Cheetos con Elote">
+                  <div class="option-card-inner">
+                    <span class="option-badge special picante">Flamin'</span>
+                    <span class="option-name">Cheetos con Elote</span>
+                    <span class="option-price">$85</span>
+                  </div>
+                </label>
+
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="ruffles-elote" data-price="85" data-name="Ruffles con Elote">
+                  <div class="option-card-inner">
+                    <span class="option-badge special">Onduladas</span>
+                    <span class="option-name">Ruffles con Elote</span>
+                    <span class="option-price">$85</span>
+                  </div>
+                </label>
+
+                <label class="antojo-option-card">
+                  <input type="radio" name="baseProduct" value="takis-elote" data-price="85" data-name="Takis con Elote">
+                  <div class="option-card-inner">
+                    <span class="option-badge special fuego">Fuego</span>
+                    <span class="option-name">Takis con Elote</span>
+                    <span class="option-price">$85</span>
+                  </div>
+                </label>
+              </div>
+            </fieldset>
+
+            <!-- PASO 2: PERSONALIZA TU PREPARACIÓN -->
+            <fieldset class="config-step">
+              <legend class="step-legend">
+                <span class="step-num">2</span>
+                <span>Personaliza tu preparación (Sin costo extra)</span>
+              </legend>
+
+              <!-- Nivel de Picante -->
+              <div class="sub-step-block">
+                <span class="sub-step-title">🌶️ Nivel de chile / salsa:</span>
+                <div class="pills-selector">
+                  <label class="pill-radio">
+                    <input type="radio" name="chileLevel" value="Sin chile">
+                    <span>Sin chile</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="chileLevel" value="Poco chile">
+                    <span>Poco chile</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="chileLevel" value="Normal" checked>
+                    <span>Normal</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="chileLevel" value="Con todo">
+                    <span>Con todo</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="chileLevel" value="Fuego / Muy picoso 🔥">
+                    <span>Fuego 🔥</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Ingredientes / Aderezos -->
+              <div class="sub-step-block">
+                <span class="sub-step-title">🧀 Ingredientes y aderezos:</span>
+                <div class="checkbox-chips-grid">
+                  <label class="chip-checkbox">
+                    <input type="checkbox" name="extras" value="Mayonesa" checked>
+                    <span>✓ Mayonesa</span>
+                  </label>
+                  <label class="chip-checkbox">
+                    <input type="checkbox" name="extras" value="Crema" checked>
+                    <span>✓ Crema</span>
+                  </label>
+                  <label class="chip-checkbox">
+                    <input type="checkbox" name="extras" value="Queso amarillo fundido" checked>
+                    <span>✓ Queso amarillo</span>
+                  </label>
+                  <label class="chip-checkbox">
+                    <input type="checkbox" name="extras" value="Queso blanco rallado" checked>
+                    <span>✓ Queso blanco</span>
+                  </label>
+                  <label class="chip-checkbox">
+                    <input type="checkbox" name="extras" value="Mantequilla" checked>
+                    <span>✓ Mantequilla</span>
+                  </label>
+                  <label class="chip-checkbox">
+                    <input type="checkbox" name="extras" value="Limón" checked>
+                    <span>✓ Limón</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Indicaciones especiales -->
+              <div class="sub-step-block">
+                <label for="orderNotes" class="sub-step-title">📝 Indicaciones especiales para cocina (opcional):</label>
+                <input type="text" id="orderNotes" class="config-input" placeholder="Ej. Salsa aparte, bien dorado, poco queso...">
+              </div>
+            </fieldset>
+
+            <!-- PASO 3: BEBIDAS BIEN FRÍAS -->
+            <fieldset class="config-step">
+              <legend class="step-legend">
+                <span class="step-num">3</span>
+                <span>¿Acompañas con una bebida bien fría?</span>
+              </legend>
+              <div class="bebidas-selector-grid">
+                <label class="bebida-radio-card">
+                  <input type="radio" name="bebidaProduct" value="sin-bebida" data-price="0" data-name="Sin bebida" checked>
+                  <div class="bebida-card-inner">
+                    <span class="b-icon">🚫</span>
+                    <span class="b-name">Sin bebida</span>
+                    <span class="b-price">$0</span>
+                  </div>
+                </label>
+
+                <label class="bebida-radio-card">
+                  <input type="radio" name="bebidaProduct" value="coca-cola" data-price="30" data-name="Coca-Cola">
+                  <div class="bebida-card-inner">
+                    <span class="b-icon">🥤</span>
+                    <span class="b-name">Coca-Cola</span>
+                    <span class="b-price">$30</span>
+                  </div>
+                </label>
+
+                <label class="bebida-radio-card">
+                  <input type="radio" name="bebidaProduct" value="coca-cola-zero" data-price="30" data-name="Coca-Cola sin azúcar">
+                  <div class="bebida-card-inner">
+                    <span class="b-icon">🥤</span>
+                    <span class="b-name">Coca-Cola Zero</span>
+                    <span class="b-price">$30</span>
+                  </div>
+                </label>
+
+                <label class="bebida-radio-card">
+                  <input type="radio" name="bebidaProduct" value="sprite" data-price="30" data-name="Sprite">
+                  <div class="bebida-card-inner">
+                    <span class="b-icon">🥤</span>
+                    <span class="b-name">Sprite</span>
+                    <span class="b-price">$30</span>
+                  </div>
+                </label>
+
+                <label class="bebida-radio-card">
+                  <input type="radio" name="bebidaProduct" value="fanta" data-price="30" data-name="Fanta">
+                  <div class="bebida-card-inner">
+                    <span class="b-icon">🥤</span>
+                    <span class="b-name">Fanta</span>
+                    <span class="b-price">$30</span>
+                  </div>
+                </label>
+
+                <label class="bebida-radio-card">
+                  <input type="radio" name="bebidaProduct" value="agua-natural" data-price="20" data-name="Agua natural">
+                  <div class="bebida-card-inner">
+                    <span class="b-icon">💧</span>
+                    <span class="b-name">Agua natural</span>
+                    <span class="b-price">$20</span>
+                  </div>
+                </label>
+              </div>
+            </fieldset>
+
+            <!-- PASO 4: DATOS DEL COMENSAL Y RECOGIDA -->
+            <fieldset class="config-step">
+              <legend class="step-legend">
+                <span class="step-num">4</span>
+                <span>Tus datos para tener tu orden lista</span>
+              </legend>
+              <div class="client-info-grid">
+                <div class="form-field">
+                  <label for="custName" class="form-label">Tu Nombre *</label>
+                  <input type="text" id="custName" class="config-input" placeholder="Nombre completo" required>
+                </div>
+
+                <div class="form-field">
+                  <label for="custPhone" class="form-label">Teléfono / WhatsApp *</label>
+                  <input type="tel" id="custPhone" class="config-input" placeholder="81 XXXXXXXX" required>
+                </div>
+
+                <div class="form-field">
+                  <label for="pickupTime" class="form-label">¿En cuánto tiempo pasas a recoger?</label>
+                  <select id="pickupTime" class="config-select">
+                    <option value="En 15 minutos">En 15 minutos</option>
+                    <option value="En 30 minutos">En 30 minutos</option>
+                    <option value="En 45 minutos">En 45 minutos</option>
+                    <option value="En 1 hora">En 1 hora</option>
+                    <option value="Ya voy en camino (5-10 min)">Ya voy en camino (5-10 min)</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- PASO 5: RESUMEN Y MÉTODO DE PAGO -->
+            <fieldset class="config-step summary-step">
+              <legend class="step-legend">
+                <span class="step-num">5</span>
+                <span>Resumen y Método de Pago</span>
+              </legend>
+
+              <div class="summary-box">
+                <div class="summary-row">
+                  <span id="summaryBaseName">Elote Asado</span>
+                  <span id="summaryBasePrice" class="summary-val">$50 MXN</span>
+                </div>
+                <div class="summary-row" id="summaryBebidaRow" style="display: none;">
+                  <span id="summaryBebidaName">Bebida</span>
+                  <span id="summaryBebidaPrice" class="summary-val">$0 MXN</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row total-row">
+                  <span>Total a Pagar:</span>
+                  <span id="summaryTotalPrice" class="total-val">$50 MXN</span>
+                </div>
+              </div>
+
+              <!-- Selector de Método de Pago -->
+              <div class="payment-methods-grid">
+                <label class="payment-method-card">
+                  <input type="radio" name="paymentMethod" value="mercadopago" checked>
+                  <div class="payment-card-inner">
+                    <div class="payment-title-row">
+                      <span class="pay-logo-badge mp-badge">Mercado Pago</span>
+                      <span class="pay-tag">En Línea</span>
+                    </div>
+                    <p class="pay-desc">Tarjeta de débito/crédito, Transferencia SPEI o saldo en Mercado Pago.</p>
+                  </div>
+                </label>
+
+                <label class="payment-method-card">
+                  <input type="radio" name="paymentMethod" value="efectivo">
+                  <div class="payment-card-inner">
+                    <div class="payment-title-row">
+                      <span class="pay-logo-badge cash-badge">💵 Pagar al Recoger</span>
+                      <span class="pay-tag">En Mostrador</span>
+                    </div>
+                    <p class="pay-desc">Efectivo o tarjeta física al momento de llegar por tu pedido.</p>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Botón de Confirmación Principal -->
+              <div class="submit-order-wrap">
+                <button type="submit" id="btnSubmitOrder" class="btn btn-primary btn-submit-order">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span id="btnSubmitText">CONFIRMAR Y PROCEDER AL PAGO ($50)</span>
+                </button>
+                <p class="submit-disclaimer">
+                  🔒 Procesamiento seguro. Tu orden se envía en tiempo real al equipo de cocina de Elotes Los Mezquites.
+                </p>
+              </div>
+            </fieldset>
+          </form>
         </div>
       </div>
     </section>
@@ -1124,6 +1478,19 @@
       </span>
       <span class="whatsapp-pulse"></span>
     </a>
+  </aside>
+
+  <!-- BARRA FIJA INFERIOR PARA MÓVIL (STICKY ORDER BAR) -->
+  <aside class="mobile-sticky-bar" aria-label="Acceso rápido para recoger de pasada">
+    <div class="mobile-sticky-inner">
+      <div class="sticky-text">
+        <span class="sticky-slogan">"Entre mezquites sabe mejor"</span>
+        <span class="sticky-prompt">Recoge de pasada en Agua Fría</span>
+      </div>
+      <a href="#pedir" class="btn btn-primary btn-sticky-order">
+        <span>🚗 ORDENAR AHORA</span>
+      </a>
+    </div>
   </aside>
 
   <!-- MODAL LIGHTBOX FOTOGRAFÍA -->

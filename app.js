@@ -211,4 +211,178 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 8. CONFIGURADOR DE PEDIDOS "PARA RECOGER DE PASADA"
+  const orderForm = document.getElementById('orderForm');
+  if (orderForm) {
+    const baseRadios = orderForm.querySelectorAll('input[name="baseProduct"]');
+    const bebidaRadios = orderForm.querySelectorAll('input[name="bebidaProduct"]');
+    const paymentRadios = orderForm.querySelectorAll('input[name="paymentMethod"]');
+    
+    const summaryBaseName = document.getElementById('summaryBaseName');
+    const summaryBasePrice = document.getElementById('summaryBasePrice');
+    const summaryBebidaRow = document.getElementById('summaryBebidaRow');
+    const summaryBebidaName = document.getElementById('summaryBebidaName');
+    const summaryBebidaPrice = document.getElementById('summaryBebidaPrice');
+    const summaryTotalPrice = document.getElementById('summaryTotalPrice');
+    const btnSubmitText = document.getElementById('btnSubmitText');
+
+    let currentBase = { id: 'elote-asado', name: 'Elote Asado', price: 50 };
+    let currentBebida = { id: 'sin-bebida', name: 'Sin bebida', price: 0 };
+    let currentPayment = 'mercadopago';
+
+    const updateCalculations = () => {
+      // 1. Base seleccionada
+      const checkedBase = orderForm.querySelector('input[name="baseProduct"]:checked');
+      if (checkedBase) {
+        currentBase = {
+          id: checkedBase.value,
+          name: checkedBase.getAttribute('data-name'),
+          price: parseInt(checkedBase.getAttribute('data-price') || '0', 10)
+        };
+      }
+
+      // 2. Bebida seleccionada
+      const checkedBebida = orderForm.querySelector('input[name="bebidaProduct"]:checked');
+      if (checkedBebida) {
+        currentBebida = {
+          id: checkedBebida.value,
+          name: checkedBebida.getAttribute('data-name'),
+          price: parseInt(checkedBebida.getAttribute('data-price') || '0', 10)
+        };
+      }
+
+      // 3. Método de pago
+      const checkedPayment = orderForm.querySelector('input[name="paymentMethod"]:checked');
+      if (checkedPayment) {
+        currentPayment = checkedPayment.value;
+      }
+
+      // 4. Actualizar interfaz de resumen
+      const total = currentBase.price + currentBebida.price;
+      if (summaryBaseName) summaryBaseName.textContent = currentBase.name;
+      if (summaryBasePrice) summaryBasePrice.textContent = `$${currentBase.price} MXN`;
+
+      if (summaryBebidaRow) {
+        if (currentBebida.price > 0) {
+          summaryBebidaRow.style.display = 'flex';
+          if (summaryBebidaName) summaryBebidaName.textContent = currentBebida.name;
+          if (summaryBebidaPrice) summaryBebidaPrice.textContent = `$${currentBebida.price} MXN`;
+        } else {
+          summaryBebidaRow.style.display = 'none';
+        }
+      }
+
+      if (summaryTotalPrice) summaryTotalPrice.textContent = `$${total} MXN`;
+      if (btnSubmitText) {
+        if (currentPayment === 'mercadopago') {
+          btnSubmitText.textContent = `PAGAR CON MERCADO PAGO ($${total})`;
+        } else {
+          btnSubmitText.textContent = `CONFIRMAR Y PAGAR AL RECOGER ($${total})`;
+        }
+      }
+    };
+
+    baseRadios.forEach(r => r.addEventListener('change', updateCalculations));
+    bebidaRadios.forEach(r => r.addEventListener('change', updateCalculations));
+    paymentRadios.forEach(r => r.addEventListener('change', updateCalculations));
+    updateCalculations();
+
+    // Procesar envío del formulario
+    orderForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const custName = document.getElementById('custName')?.value.trim();
+      const custPhone = document.getElementById('custPhone')?.value.trim();
+      const pickupTime = document.getElementById('pickupTime')?.value;
+      const orderNotes = document.getElementById('orderNotes')?.value.trim();
+      const checkedChile = orderForm.querySelector('input[name="chileLevel"]:checked')?.value || 'Normal';
+
+      const checkedExtras = [];
+      orderForm.querySelectorAll('input[name="extras"]:checked').forEach(cb => {
+        checkedExtras.push(cb.value);
+      });
+
+      if (!custName || !custPhone) {
+        alert('Por favor ingresa tu nombre y teléfono para tener tu pedido listo.');
+        return;
+      }
+
+      const total = currentBase.price + currentBebida.price;
+      const orderId = `LMZ-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      // Construir mensaje estructurado para WhatsApp
+      const waMsgLines = [
+        `¡Hola Elotes Los Mezquites! Quiero hacer un pedido *PARA RECOGER DE PASADA*:`,
+        ``,
+        `📋 *Folio de Pedido:* #${orderId}`,
+        `👤 *Cliente:* ${custName}`,
+        `📞 *Teléfono:* ${custPhone}`,
+        `⏱️ *Tiempo estimado de llegada:* ${pickupTime}`,
+        ``,
+        `🌽 *Antojo Principal:* ${currentBase.name} ($${currentBase.price} MXN)`,
+        `🌶️ *Nivel de chile:* ${checkedChile}`,
+        `🧀 *Ingredientes:* ${checkedExtras.join(', ') || 'Tradicional'}`,
+        orderNotes ? `📝 *Notas especiales:* ${orderNotes}` : null,
+        currentBebida.price > 0 ? `🥤 *Bebida:* ${currentBebida.name} ($${currentBebida.price} MXN)` : null,
+        ``,
+        `💳 *Método de pago:* ${currentPayment === 'mercadopago' ? 'Mercado Pago (En línea)' : 'Pagar en efectivo al llegar'}`,
+        `💰 *TOTAL A PAGAR:* $${total} MXN`,
+        ``,
+        `_Favor de confirmar que recibieron mi orden para tenerla calientita. ¡Gracias!_`
+      ].filter(line => line !== null);
+
+      const encodedWaMsg = encodeURIComponent(waMsgLines.join('\n'));
+      const waUrl = `https://wa.me/528121912778?text=${encodedWaMsg}`;
+
+      // Si seleccionó Mercado Pago, intentar generar preferencia en el backend
+      if (currentPayment === 'mercadopago') {
+        const btnSubmit = document.getElementById('btnSubmitOrder');
+        const originalText = btnSubmitText.textContent;
+        btnSubmitText.textContent = 'Conectando con Mercado Pago...';
+
+        try {
+          const res = await fetch('/api/create-preference', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              baseId: currentBase.id,
+              bebidaId: currentBebida.id,
+              customer: { name: custName, phone: custPhone },
+              extras: checkedExtras,
+              chile: checkedChile,
+              time: pickupTime
+            })
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+            if (data.initPoint) {
+              // Notificar al cliente y abrir pasarela
+              showToast(`Orden #${orderId} creada. Abriendo Mercado Pago...`);
+              setTimeout(() => {
+                window.location.href = data.initPoint;
+              }, 800);
+              return;
+            }
+          }
+        } catch (err) {
+          console.warn('Backend serverless no disponible en modo estático, usando checkout asistido por WhatsApp:', err);
+        }
+
+        // Fallback: Si no hay servidor activo en localhost, enviar orden por WhatsApp para pago con link de MP
+        btnSubmitText.textContent = originalText;
+        showToast(`Orden #${orderId} registrada con éxito`);
+        setTimeout(() => {
+          window.open(waUrl, '_blank');
+        }, 600);
+      } else {
+        // Pago en efectivo / terminal al llegar
+        showToast(`¡Orden #${orderId} enviada a cocina!`);
+        setTimeout(() => {
+          window.open(waUrl, '_blank');
+        }, 600);
+      }
+    });
+  }
 });
