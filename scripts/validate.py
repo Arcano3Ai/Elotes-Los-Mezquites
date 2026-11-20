@@ -35,8 +35,9 @@ print("\n=== 3. Validando existencia de recursos enlazados en index.html ===")
 srcs = re.findall(r'src=["\'](assets/[^"\']+)["\']', content)
 hrefs = re.findall(r'href=["\'](assets/[^"\']+)["\']', content)
 srcsets = re.findall(r'srcset=["\'](assets/[^"\']+)["\']', content)
+data_photos = re.findall(r'data-photo=["\'](assets/[^"\']+)["\']', content)
 
-all_assets = sorted(list(set(srcs + hrefs + srcsets)))
+all_assets = sorted(list(set(srcs + hrefs + srcsets + data_photos)))
 missing = []
 for asset in all_assets:
     if not os.path.exists(asset):

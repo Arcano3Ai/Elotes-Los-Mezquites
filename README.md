@@ -6,6 +6,16 @@ Landing page oficial de **Elotes Los Mezquites**, un espacio gastronómico mexic
 
 ---
 
+## 📸 Fotografías Reales del Establecimiento
+
+El sitio integra las **fotografías reales del lugar** tomadas en Agua Fría, Apodaca, procesadas y optimizadas mediante un pipeline de calibración fotográfica:
+* **Grandes Árboles Mezquites:** Follaje y sombra natural del terreno.
+* **Mesas al Aire Libre:** Bancos y mesas de madera rústica para convivencia campestre.
+* **Espacio Abierto y Tradicional:** Instalaciones auténticas del establecimiento sin elementos ficticios.
+* **Visualizador Lightbox:** Las fotos pueden inspeccionarse en alta resolución con un solo clic.
+
+---
+
 ## 🎨 Identidad Visual & Paleta Cromática
 
 | Color | Hex | Aplicación |
@@ -23,8 +33,9 @@ Landing page oficial de **Elotes Los Mezquites**, un espacio gastronómico mexic
 ## ✨ Características Principales
 
 * **Hero Cinematográfico**: Pantalla completa con animación sutil Ken Burns sobre la fotografía del establecimiento, overlays de vignette cálidos e indicador animado de scroll.
-* **Sección Nuestra Esencia**: Composición editorial asimétrica que transmite la calidez de la fogata y el ambiente campestre familiar.
-* **Galería Gastronómica con Lightbox**: Muestra elotes preparados, asados con limón y chile, esquites/vasos de elote humeantes y salsas artesanales, con visualizador modal a pantalla completa.
+* **Sección Nuestra Esencia**: Composición editorial con las fotos reales del lugar bajo los mezquites.
+* **Galería Gastronómica con Lightbox**: Elotes preparados, asados con limón y chile, esquites/vasos de elote humeantes y salsas artesanales, sin precios inventados.
+* **Nuestro Espacio Real**: Galería fotográfica con las instalaciones auténticas en Agua Fría, Apodaca.
 * **La Experiencia**: 3 conceptos visuales destacados (*01 El Sabor*, *02 El Ambiente*, *03 Los Momentos*) con números monumentales translúcidos.
 * **Sección de Ubicación & NAP**: Integración responsiva de Google Maps, enlaces directos a la app de navegación y botón para copiar dirección al portapapeles.
 * **Conversión Directa a WhatsApp**: Botón flotante persistente con tooltip y enlaces optimizados con mensaje de consulta predeterminado.
@@ -46,16 +57,21 @@ Elotes-Los-Mezquites/
 │   │   ├── logo.svg      # Logotipo vectorial de la marca
 │   │   └── favicon.svg   # Favicon para el navegador
 │   └── images/
+│       ├── lugar/        # Fotografías reales mejoradas del lugar
+│       │   ├── mezquites-real-1.webp / .jpg
+│       │   ├── mezquites-real-2.webp / .jpg
+│       │   ├── mezquites-real-3.webp / .jpg
+│       │   ├── mezquites-real-4.webp / .jpg
+│       │   └── mezquites-real-5.webp / .jpg
 │       ├── hero-mezquites.webp / .jpg   # Fotografía hero
-│       ├── fogata-noche.webp / .jpg     # Fotografía de fogata
-│       ├── convivencia-madera.webp / .jpg # Área de mesas rústicas
 │       ├── elote-preparado.webp / .jpg  # Elote preparado tradicional
 │       ├── elote-asado-chile.webp / .jpg# Elote asado al carbón
 │       ├── esquites-vaso.webp / .jpg    # Esquites en vaso
 │       ├── salsas-artesanales.webp / .jpg # Salsas y complementos
-│       └── og-image.jpg                 # Imagen OpenGraph optimizada
+│       └── og-image.jpg                 # Imagen OpenGraph optimizada (< 300KB)
 └── scripts/
-    ├── process_assets.py # Pipeline de compresión de imágenes
+    ├── enhance_photos.py # Pipeline de mejora fotográfica digital
+    ├── process_assets.py # Compresión y optimización de imágenes
     └── validate.py       # Suite de verificación técnica y SEO
 ```
 
