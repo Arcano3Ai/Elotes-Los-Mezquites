@@ -753,6 +753,12 @@ ul {
   position: relative;
 }
 
+.single-composition .main-frame {
+  width: 100%;
+  margin-left: 0;
+  aspect-ratio: 4/5;
+}
+
 .main-frame {
   width: 88%;
   margin-left: auto;
@@ -2297,6 +2303,92 @@ ul {
   background-image: 
     radial-gradient(circle at 80% 20%, rgba(89, 100, 66, 0.2) 0%, transparent 60%),
     radial-gradient(circle at 20% 80%, rgba(56, 33, 22, 0.5) 0%, transparent 60%);
+}
+
+/* Showcase Único del Lugar Real */
+.espacio-single-showcase {
+  max-width: 1040px;
+  margin: 3.5rem auto 0;
+}
+
+.espacio-showcase-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(244, 181, 45, 0.25);
+  background: var(--c-carbon);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 30px rgba(217, 145, 36, 0.15);
+  transition: all var(--transition-normal);
+}
+
+.espacio-showcase-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(244, 181, 45, 0.45);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(244, 181, 45, 0.25);
+}
+
+.espacio-showcase-img {
+  width: 100%;
+  height: auto;
+  max-height: 640px;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-slow);
+}
+
+.espacio-showcase-card:hover .espacio-showcase-img {
+  transform: scale(1.02);
+}
+
+.espacio-showcase-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(36, 22, 15, 0.05) 0%, rgba(36, 22, 15, 0.45) 50%, rgba(36, 22, 15, 0.94) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem;
+}
+
+.espacio-showcase-content {
+  max-width: 650px;
+}
+
+.espacio-showcase-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0.6rem 0 0.8rem;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.espacio-showcase-desc {
+  font-size: 1rem;
+  color: var(--c-crema);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+}
+
+.espacio-showcase-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .espacio-showcase-overlay {
+    padding: 1.5rem;
+    position: relative;
+    background: var(--c-carbon);
+  }
+
+  .espacio-showcase-img {
+    max-height: 420px;
+  }
 }
 
 .espacio-gallery-grid {
