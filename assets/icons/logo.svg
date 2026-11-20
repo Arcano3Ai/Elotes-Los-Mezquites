@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120" fill="none">
+  <!-- Símbolo de Maíz y Ramas de Mezquite -->
+  <g transform="translate(10, 10)">
+    <!-- Aura de Fogata y Calidez -->
+    <circle cx="50" cy="50" r="44" fill="#382116" stroke="#D99124" stroke-width="2" stroke-dasharray="4 2"/>
+    <circle cx="50" cy="50" r="40" fill="#24160F"/>
+    
+    <!-- Ramas de mezquite de fondo -->
+    <path d="M22 62 C30 46, 42 38, 50 24 C58 38, 70 46, 78 62" stroke="#596442" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M30 48 Q22 42 20 34 Q30 38 34 46" fill="#596442"/>
+    <path d="M70 48 Q78 42 80 34 Q70 38 66 46" fill="#596442"/>
+    <path d="M38 36 Q32 28 26 24 Q36 26 40 34" fill="#596442"/>
+    <path d="M62 36 Q68 28 74 24 Q64 26 60 34" fill="#596442"/>
+
+    <!-- Silueta central de mazorca de elote dorada -->
+    <path d="M50 20 C42 28, 40 44, 40 60 C40 72, 46 78, 50 82 C54 78, 60 72, 60 60 C60 44, 58 28, 50 20 Z" fill="#F4B52D"/>
+    
+    <!-- Granos y textura artesanal -->
+    <path d="M46 32 C48 30, 52 30, 54 32 M44 42 C48 40, 52 40, 56 42 M43 52 C47 50, 53 50, 57 52 M44 62 C48 60, 52 60, 56 62 M46 71 C48 70, 52 70, 54 71" stroke="#D99124" stroke-width="2" stroke-linecap="round"/>
+    <line x1="50" y1="24" x2="50" y2="78" stroke="#D99124" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- Chala / Hojas de elote abiertas en la base -->
+    <path d="M38 72 C34 62, 32 50, 30 44 C28 58, 32 76, 44 82" stroke="#A94D27" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M62 72 C66 62, 68 50, 70 44 C72 58, 68 76, 56 82" stroke="#A94D27" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    
+    <!-- Fuego / Chispa cálida en la base -->
+    <path d="M50 82 C48 85, 46 88, 50 92 C54 88, 52 85, 50 82 Z" fill="#D99124"/>
+  </g>
+
+  <!-- Tipografía de Marca -->
+  <g transform="translate(125, 20)">
+    <!-- Subtítulo / Badge superior -->
+    <text x="4" y="22" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11" font-weight="700" letter-spacing="4" fill="#D99124">SABORES TRADICIONALES</text>
+    
+    <!-- Título Principal "ELOTES" -->
+    <text x="2" y="54" font-family="'Playfair Display', Georgia, serif" font-size="34" font-weight="900" letter-spacing="3" fill="#F5E8CE">ELOTES</text>
+    
+    <!-- Título Destacado "LOS MEZQUITES" -->
+    <text x="3" y="82" font-family="'Playfair Display', Georgia, serif" font-size="24" font-weight="700" letter-spacing="4" fill="#F4B52D">LOS MEZQUITES</text>
+    
+    <!-- Línea decorativa con espigas -->
+    <line x1="4" y1="92" x2="310" y2="92" stroke="#A94D27" stroke-width="1.5" stroke-opacity="0.8"/>
+    <circle cx="155" cy="92" r="3" fill="#F4B52D"/>
+  </g>
+</svg>
