@@ -6,13 +6,38 @@ Landing page oficial de **Elotes Los Mezquites**, un espacio gastronómico mexic
 
 ---
 
+## 📋 Menú Oficial Integrado
+
+El sitio cuenta con la carta completa estructurada en 3 bloques de alta conversión gastronómica:
+
+### 🌽 1. Los Tradicionales
+* **Elote asado:** Elote a las brasas, con limón, sal y chile al gusto.
+* **Elote cocido:** Elote tradicional preparado al gusto.
+* **Elote preparado:** Elote con mayonesa, crema, queso y chile.
+
+### 🔥 2. Los Mezquites Especiales
+* **Tostitos con elote:** Tostitos preparados con esquites, crema, queso y salsa.
+* **Conchitas con elote:** Conchitas bañadas con elote, crema y queso *(orgullo norteño)*.
+* **Doritos con elote:** Doritos Nacho con elote preparado.
+* **Cheetos con elote:** Cheetos Flamin' Hot con esquites y aderezos.
+* **Ruffles con elote:** Ruffles con elote, queso y crema.
+* **Takis con elote:** Takis Fuego con esquites y salsa.
+
+### 🧀 3. Extras, Complementos y Bebidas (Sección Compacta)
+* **Personaliza tu antojo:** Mayonesa, Crema, Queso amarillo fundido, Queso blanco rallado, Mantequilla, Limón.
+* **Bebidas bien frías:** Coca-Cola, Coca-Cola sin azúcar, Sprite, Fanta y Agua natural.
+* **Acción directa:** Cada producto cuenta con botón de pedido directo vía WhatsApp.
+
+---
+
 ## 📸 Fotografías Reales del Establecimiento
 
 El sitio integra las **fotografías reales del lugar** tomadas en Agua Fría, Apodaca, procesadas y optimizadas mediante un pipeline de calibración fotográfica:
+* **Hero Limpio:** Fondo a pantalla completa sin opacidades artificiales ni textos duplicados sobre la toma.
 * **Grandes Árboles Mezquites:** Follaje y sombra natural del terreno.
 * **Mesas al Aire Libre:** Bancos y mesas de madera rústica para convivencia campestre.
 * **Espacio Abierto y Tradicional:** Instalaciones auténticas del establecimiento sin elementos ficticios.
-* **Visualizador Lightbox:** Las fotos pueden inspeccionarse en alta resolución con un solo clic.
+* **Visualizador Lightbox:** Las fotos de la carta y del espacio pueden ampliarse en alta resolución con un solo clic.
 
 ---
 
@@ -30,20 +55,6 @@ El sitio integra las **fotografías reales del lugar** tomadas en Agua Fría, Ap
 
 ---
 
-## ✨ Características Principales
-
-* **Hero Cinematográfico**: Pantalla completa con animación sutil Ken Burns sobre la fotografía del establecimiento, overlays de vignette cálidos e indicador animado de scroll.
-* **Sección Nuestra Esencia**: Composición editorial con las fotos reales del lugar bajo los mezquites.
-* **Galería Gastronómica con Lightbox**: Elotes preparados, asados con limón y chile, esquites/vasos de elote humeantes y salsas artesanales, sin precios inventados.
-* **Nuestro Espacio Real**: Galería fotográfica con las instalaciones auténticas en Agua Fría, Apodaca.
-* **La Experiencia**: 3 conceptos visuales destacados (*01 El Sabor*, *02 El Ambiente*, *03 Los Momentos*) con números monumentales translúcidos.
-* **Sección de Ubicación & NAP**: Integración responsiva de Google Maps, enlaces directos a la app de navegación y botón para copiar dirección al portapapeles.
-* **Conversión Directa a WhatsApp**: Botón flotante persistente con tooltip y enlaces optimizados con mensaje de consulta predeterminado.
-* **SEO Local & Schema.org**: Marcado estructurado JSON-LD tipo `Restaurant` y metadatos OpenGraph validados (`< 300KB`).
-* **100% Responsive & Accesible**: Compatible con todos los dispositivos móviles, tablets y desktops.
-
----
-
 ## 📁 Estructura del Proyecto
 
 ```text
@@ -57,17 +68,23 @@ Elotes-Los-Mezquites/
 │   │   ├── logo.svg      # Logotipo vectorial de la marca
 │   │   └── favicon.svg   # Favicon para el navegador
 │   └── images/
+│       ├── menu/         # Fotografías de los platillos y botanas del menú
+│       │   ├── elote-asado.webp / .jpg
+│       │   ├── elote-cocido.webp / .jpg
+│       │   ├── elote-preparado.webp / .jpg
+│       │   ├── tostitos-elote.webp / .jpg
+│       │   ├── conchitas-elote.webp / .jpg
+│       │   ├── doritos-elote.webp / .jpg
+│       │   ├── cheetos-flamin-elote.webp / .jpg
+│       │   ├── ruffles-elote.webp / .jpg
+│       │   └── takis-elote.webp / .jpg
 │       ├── lugar/        # Fotografías reales mejoradas del lugar
 │       │   ├── mezquites-real-1.webp / .jpg
 │       │   ├── mezquites-real-2.webp / .jpg
 │       │   ├── mezquites-real-3.webp / .jpg
 │       │   ├── mezquites-real-4.webp / .jpg
 │       │   └── mezquites-real-5.webp / .jpg
-│       ├── hero-mezquites.webp / .jpg   # Fotografía hero
-│       ├── elote-preparado.webp / .jpg  # Elote preparado tradicional
-│       ├── elote-asado-chile.webp / .jpg# Elote asado al carbón
-│       ├── esquites-vaso.webp / .jpg    # Esquites en vaso
-│       ├── salsas-artesanales.webp / .jpg # Salsas y complementos
+│       ├── hero-mezquites.webp / .jpg   # Fotografía hero limpia
 │       └── og-image.jpg                 # Imagen OpenGraph optimizada (< 300KB)
 └── scripts/
     ├── enhance_photos.py # Pipeline de mejora fotográfica digital
@@ -86,9 +103,6 @@ El proyecto está construido con **HTML5, CSS3 y JavaScript moderno** sin depend
 2. En la sección **Pages**, selecciona la rama `main` y la carpeta `/ (root)`.
 3. Guarda los cambios. Tu sitio estará disponible en minutos en:
    `https://arcano3ai.github.io/Elotes-Los-Mezquites/`
-
-### Vercel / Netlify
-Simplemente importa el repositorio; al no requerir build command (`output directory: .`), estará en línea de inmediato.
 
 ---
 

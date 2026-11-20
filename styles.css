@@ -487,17 +487,17 @@ ul {
 }
 
 /* --------------------------------------------------------------------------
-   HERO SECTION (CINEMATOGRÁFICO DE PANTALLA COMPLETA)
+   HERO SECTION (CINEMATOGRÁFICO DE PANTALLA COMPLETA - SIN OPACIDAD)
    -------------------------------------------------------------------------- */
 .hero-section {
   position: relative;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   text-align: center;
-  padding: calc(var(--header-height) + 2rem) 1.5rem 4rem;
+  padding: calc(var(--header-height) + 2rem) 1.5rem 6.5rem;
   overflow: hidden;
 }
 
@@ -514,101 +514,22 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 35%;
-  transform: scale(1.04);
-  animation: heroKenBurns 18s ease-in-out infinite alternate;
+  object-position: center center;
+  transform: scale(1.02);
+  transition: transform 1.2s ease;
 }
 
-@keyframes heroKenBurns {
-  0% { transform: scale(1.03) translate(0, 0); }
-  100% { transform: scale(1.08) translate(-1%, -1%); }
-}
-
+/* Sin capa de opacidad que oscurezca la imagen */
 .hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  background: 
-    radial-gradient(ellipse at center, rgba(36, 22, 15, 0.45) 0%, rgba(36, 22, 15, 0.88) 100%),
-    linear-gradient(180deg, rgba(36, 22, 15, 0.6) 0%, rgba(36, 22, 15, 0.2) 50%, rgba(36, 22, 15, 0.95) 100%);
+  display: none;
 }
 
-.hero-content {
+.hero-content-minimal {
   position: relative;
   z-index: 3;
-  max-width: 900px;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  color: var(--c-maiz);
-  background: rgba(36, 22, 15, 0.75);
-  border: 1px solid rgba(244, 181, 45, 0.35);
-  padding: 0.5rem 1.4rem;
-  border-radius: 999px;
-  backdrop-filter: blur(6px);
-  margin-bottom: 1.8rem;
-}
-
-.badge-dot {
-  width: 6px;
-  height: 6px;
-  background-color: var(--c-ambar);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--c-ambar);
-}
-
-.hero-title {
-  font-family: var(--font-serif);
-  color: var(--c-crema);
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-  margin-bottom: 1.25rem;
-}
-
-.hero-title .title-sub {
-  display: block;
-  font-size: clamp(2.5rem, 6vw, 5.2rem);
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  color: var(--c-crema);
-}
-
-.hero-title .title-main {
-  display: block;
-  font-size: clamp(2.2rem, 5.4vw, 4.4rem);
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  line-height: 1.1;
-  color: var(--c-maiz);
-  text-shadow: 0 0 30px rgba(244, 181, 45, 0.35);
-}
-
-.hero-slogan {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.4rem, 2.8vw, 2.1rem);
-  color: var(--c-crema);
-  margin-bottom: 0.8rem;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
-}
-
-.hero-description {
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
-  color: var(--c-crema-muted);
-  max-width: 620px;
-  margin: 0 auto 2.5rem;
-  font-weight: 400;
 }
 
 .hero-actions {
@@ -622,20 +543,22 @@ ul {
 .btn-hero {
   padding: 1.05rem 2.2rem;
   font-size: 0.95rem;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.6);
 }
 
 /* Indicador de Desplazamiento */
 .scroll-indicator {
   position: absolute;
-  bottom: 2rem;
+  bottom: 1.8rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
-  color: var(--c-crema-muted);
+  gap: 0.5rem;
+  color: var(--c-crema);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   transition: color var(--transition-fast);
 }
 
@@ -646,9 +569,11 @@ ul {
 .mouse {
   width: 24px;
   height: 38px;
-  border: 2px solid var(--c-crema-muted);
+  border: 2px solid var(--c-crema);
   border-radius: 12px;
   position: relative;
+  background: rgba(36, 22, 15, 0.4);
+  backdrop-filter: blur(4px);
 }
 
 .wheel {
@@ -825,8 +750,381 @@ ul {
 }
 
 /* --------------------------------------------------------------------------
-   SECCIÓN GASTRONÓMICA: ANTOJITOS
+   SECCIÓN: MENÚ OFICIAL (3 BLOQUES ESTRUCTURADOS)
    -------------------------------------------------------------------------- */
+.section-menu {
+  background-color: var(--c-madera);
+  background-image: 
+    linear-gradient(180deg, var(--c-carbon) 0%, var(--c-madera) 12%, var(--c-madera) 88%, var(--c-carbon) 100%);
+  padding: clamp(5rem, 8vw, 8rem) 0;
+}
+
+.menu-block {
+  margin-top: 4.5rem;
+}
+
+.menu-block:first-of-type {
+  margin-top: 3rem;
+}
+
+.menu-block-header {
+  margin-bottom: 2rem;
+}
+
+.menu-block-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.block-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-maiz);
+  background: rgba(244, 181, 45, 0.12);
+  border: 1px solid rgba(244, 181, 45, 0.3);
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+}
+
+.block-badge.special {
+  color: #ff9d5c;
+  background: rgba(235, 94, 40, 0.12);
+  border-color: rgba(235, 94, 40, 0.35);
+}
+
+.menu-block-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+  font-weight: 800;
+  color: var(--c-crema);
+  letter-spacing: 0.02em;
+}
+
+.menu-block-desc {
+  font-size: 1rem;
+  color: var(--c-crema-muted);
+  max-width: 650px;
+}
+
+.menu-cards-grid {
+  display: grid;
+  gap: 1.8rem;
+}
+
+.grid-tradicionales {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid-especiales {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.menu-item-card {
+  background: var(--c-carbon);
+  border: 1px solid rgba(245, 232, 206, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(244, 181, 45, 0.4);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45), var(--shadow-glow);
+}
+
+.item-media {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background-color: #1a0f0a;
+}
+
+.item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.menu-item-card:hover .item-img {
+  transform: scale(1.08);
+}
+
+.item-badge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  background: rgba(36, 22, 15, 0.88);
+  color: var(--c-maiz);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(244, 181, 45, 0.35);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.item-badge.picante {
+  color: #ff5e36;
+  border-color: rgba(255, 94, 54, 0.4);
+}
+
+.item-badge.fuego {
+  color: #ff3333;
+  border-color: rgba(255, 51, 51, 0.4);
+  background: rgba(40, 10, 10, 0.9);
+}
+
+.item-media .btn-view-photo {
+  position: absolute;
+  bottom: 0.85rem;
+  right: 0.85rem;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all var(--transition-fast);
+  background: rgba(244, 181, 45, 0.95);
+  color: var(--c-carbon);
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.menu-item-card:hover .item-media .btn-view-photo {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.item-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.item-header-row {
+  margin-bottom: 0.5rem;
+}
+
+.item-name {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--c-crema);
+}
+
+.item-desc {
+  font-size: 0.92rem;
+  color: var(--c-crema-muted);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.item-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(245, 232, 206, 0.08);
+}
+
+.item-tag {
+  font-size: 0.78rem;
+  color: var(--c-maiz);
+  background: rgba(244, 181, 45, 0.08);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+}
+
+.btn-item-order {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--c-carbon);
+  background: linear-gradient(135deg, var(--c-maiz) 0%, var(--c-ambar) 100%);
+  padding: 0.45rem 0.95rem;
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+}
+
+.btn-item-order:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--c-maiz-glow);
+  background: linear-gradient(135deg, #ffd05b 0%, #e89e30 100%);
+}
+
+/* --------------------------------------------------------------------------
+   BLOQUE 3: EXTRAS Y BEBIDAS COMPACTO
+   -------------------------------------------------------------------------- */
+.menu-compact-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2rem;
+}
+
+.compact-panel {
+  background: var(--c-carbon);
+  border: 1px solid rgba(245, 232, 206, 0.12);
+  border-radius: 16px;
+  padding: 2.2rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 1.8rem;
+}
+
+.panel-icon {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(244, 181, 45, 0.12);
+  border: 1px solid rgba(244, 181, 45, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-maiz);
+}
+
+.panel-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--c-maiz);
+  margin-bottom: 0.3rem;
+}
+
+.panel-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--c-crema);
+  margin-bottom: 0.25rem;
+}
+
+.panel-subtitle {
+  font-size: 0.9rem;
+  color: var(--c-crema-muted);
+}
+
+.extras-chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.extra-chip {
+  background: rgba(245, 232, 206, 0.06);
+  border: 1px solid rgba(245, 232, 206, 0.15);
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  color: var(--c-crema);
+  transition: all var(--transition-fast);
+}
+
+.extra-chip:hover {
+  background: rgba(244, 181, 45, 0.15);
+  border-color: var(--c-maiz);
+  color: var(--c-maiz);
+  transform: translateY(-1px);
+}
+
+.chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--c-maiz);
+}
+
+.panel-footer-note {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(245, 232, 206, 0.08);
+  font-size: 0.85rem;
+  color: var(--c-crema-muted);
+}
+
+.bebidas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.bebida-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  background: rgba(245, 232, 206, 0.04);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 232, 206, 0.08);
+  transition: all var(--transition-fast);
+}
+
+.bebida-item:hover {
+  background: rgba(245, 232, 206, 0.08);
+  border-color: rgba(244, 181, 45, 0.3);
+}
+
+.bebida-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bebida-bullet {
+  font-size: 1.1rem;
+}
+
+.bebida-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--c-crema);
+}
+
+.bebida-tag {
+  font-size: 0.75rem;
+  color: var(--c-crema-muted);
+  background: rgba(245, 232, 206, 0.08);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+}
+
+@media (max-width: 992px) {
+  .menu-compact-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .section-gastronomia {
   background-color: var(--c-madera);
   background-image: 
