@@ -431,25 +431,25 @@
             <article class="menu-item-card vaso-card">
               <div class="item-media">
                 <picture>
-                  <source srcset="assets/images/menu/elote-preparado.webp" type="image/webp">
-                  <img src="assets/images/menu/elote-preparado.jpg" alt="Elote en vaso mediano" class="item-img" loading="lazy">
+                  <source srcset="assets/images/esquites-vaso.webp" type="image/webp">
+                  <img src="assets/images/esquites-vaso.jpg" alt="Elote en vaso mediano de hielo seco" class="item-img" loading="lazy">
                 </picture>
                 <span class="item-badge">El Favorito</span>
                 <span class="item-price-tag highlight">$60</span>
-                <button class="btn-view-photo" data-photo="assets/images/menu/elote-preparado.jpg" data-caption="Elote en Vaso Mediano - $60">
+                <button class="btn-view-photo" data-photo="assets/images/esquites-vaso.jpg" data-caption="Elote en Vaso Mediano de Hielo Seco (1/2 Litro) - $60">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
                   <span>Ver foto</span>
                 </button>
               </div>
               <div class="item-body">
                 <div class="item-header-row">
-                  <h4 class="item-name">Vaso Mediano</h4>
+                  <h4 class="item-name">Vaso Mediano (1/2 Litro)</h4>
                   <span class="item-price">$60</span>
                 </div>
-                <p class="item-desc">Elote desgranado en vaso mediano con abundante grano tierno, caldo aromático, crema y queso.</p>
+                <p class="item-desc">Vaso de hielo seco blanco de medio litro (16 oz), con abundante grano tierno recién cocido al vapor, caldo aromático de epazote, mayonesa, crema, queso cotija y chile al gusto.</p>
                 <div class="item-action-row">
-                  <span class="item-tag">Presentación mediana</span>
-                  <a href="https://wa.me/528121912778?text=%C2%A1Hola!%20Quiero%20pedir%20un%20Elote%20en%20Vaso%20Mediano%20($60)%20en%20Elotes%20Los%20Mezquites." class="btn-item-order" target="_blank" rel="noopener noreferrer">
+                  <span class="item-tag">Vaso térmico 1/2 Litro</span>
+                  <a href="https://wa.me/528121912778?text=%C2%A1Hola!%20Quiero%20pedir%20un%20Elote%20en%20Vaso%20Mediano%20de%20medio%20litro%20($60)%20en%20Elotes%20Los%20Mezquites." class="btn-item-order" target="_blank" rel="noopener noreferrer">
                     <span>Pedir por $60</span>
                     <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                   </a>
@@ -1018,6 +1018,24 @@
                 <label for="orderNotes" class="sub-step-title">📝 Indicaciones especiales para cocina (opcional):</label>
                 <input type="text" id="orderNotes" class="config-input" placeholder="Ej. Salsa aparte, bien dorado, poco queso...">
               </div>
+
+              <!-- Selector de Cantidad y Agregar al Pedido -->
+              <div class="add-product-action-bar">
+                <div class="qty-control-wrap">
+                  <span class="qty-label">Cantidad:</span>
+                  <div class="qty-counter">
+                    <button type="button" class="btn-qty" id="btnQtyMinus" aria-label="Disminuir cantidad">-</button>
+                    <span class="qty-display" id="itemQtyDisplay">1</span>
+                    <button type="button" class="btn-qty" id="btnQtyPlus" aria-label="Aumentar cantidad">+</button>
+                  </div>
+                </div>
+                <button type="button" id="btnAddToCart" class="btn-add-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                  </svg>
+                  <span>AGREGAR ESTE PRODUCTO AL PEDIDO</span>
+                </button>
+              </div>
             </fieldset>
 
             <!-- PASO 3: BEBIDAS BIEN FRÍAS -->
@@ -1083,6 +1101,23 @@
               </div>
             </fieldset>
 
+            <!-- LISTA DINÁMICA DE PRODUCTOS AGREGADOS (CARRITO MULTI-PRODUCTO) -->
+            <div class="cart-box" id="orderCartBox">
+              <div class="cart-header">
+                <div class="cart-title-row">
+                  <span class="cart-title">🛒 TU PEDIDO</span>
+                  <span class="cart-count-badge" id="cartCountBadge">0 productos</span>
+                </div>
+                <button type="button" class="btn-clear-cart" id="btnClearCart">Vaciar lista</button>
+              </div>
+              <div class="cart-items-list" id="cartItemsContainer">
+                <!-- Se llena con JS -->
+              </div>
+              <p class="cart-add-more-hint">
+                💡 Puedes seleccionar otro elote o botana arriba y pulsar <strong>"Agregar este producto al pedido"</strong> para llevar varios productos en la misma orden.
+              </p>
+            </div>
+
             <!-- PASO 4: DATOS DEL COMENSAL Y RECOGIDA -->
             <fieldset class="config-step">
               <legend class="step-legend">
@@ -1121,13 +1156,15 @@
               </legend>
 
               <div class="summary-box">
-                <div class="summary-row">
-                  <span id="summaryBaseName">Elote Asado</span>
-                  <span id="summaryBasePrice" class="summary-val">$50 MXN</span>
-                </div>
-                <div class="summary-row" id="summaryBebidaRow" style="display: none;">
-                  <span id="summaryBebidaName">Bebida</span>
-                  <span id="summaryBebidaPrice" class="summary-val">$0 MXN</span>
+                <div id="summaryItemsList" class="summary-items-list">
+                  <div class="summary-row">
+                    <span id="summaryBaseName">1x Elote Asado</span>
+                    <span id="summaryBasePrice" class="summary-val">$50 MXN</span>
+                  </div>
+                  <div class="summary-row" id="summaryBebidaRow" style="display: none;">
+                    <span id="summaryBebidaName">Bebida</span>
+                    <span id="summaryBebidaPrice" class="summary-val">$0 MXN</span>
+                  </div>
                 </div>
                 <div class="summary-divider"></div>
                 <div class="summary-row total-row">

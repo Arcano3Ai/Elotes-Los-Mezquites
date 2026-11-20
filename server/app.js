@@ -139,42 +139,62 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         const body = JSON.parse(rawBody || '{}');
-        const { baseId, bebidaId, customer, extras, chile, time } = body;
+        const { baseId, bebidaId, customer, extras, chile, time, items: rawItems } = body;
 
-        // Validación estricta en el servidor
-        const baseItem = OFFICIAL_PRICES[baseId];
-        if (!baseItem) {
-          res.writeHead(400, { 'Content-Type': 'application/json' });
-          return res.end(JSON.stringify({ error: 'Producto base no válido' }));
+        const mpItems = [];
+        let total = 0;
+
+        // Soporte para múltiples productos en el pedido
+        if (Array.isArray(rawItems) && rawItems.length > 0) {
+          for (const it of rawItems) {
+            const canonical = OFFICIAL_PRICES[it.id];
+            if (canonical && canonical.price > 0) {
+              const qty = Math.max(1, parseInt(it.quantity || it.qty || 1, 10));
+              const desc = it.description || (it.chile ? `Prep: ${it.chile}` : '');
+              mpItems.push({
+                title: `${qty}x ${canonical.title}${desc ? ' - ' + desc : ''}`,
+                quantity: qty,
+                currency_id: 'MXN',
+                unit_price: canonical.price
+              });
+              total += canonical.price * qty;
+            }
+          }
         }
 
-        const items = [
-          {
+        // Fallback para pedidos de producto único
+        if (mpItems.length === 0) {
+          const baseItem = OFFICIAL_PRICES[baseId];
+          if (!baseItem) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            return res.end(JSON.stringify({ error: 'Producto base no válido' }));
+          }
+
+          mpItems.push({
             title: `${baseItem.title} (Recoger de pasada - ${time || 'En 15 min'})`,
             description: `Preparación: ${chile || 'Con todo'}. Extras: ${(extras || []).join(', ') || 'Tradicional'}`,
             quantity: 1,
             currency_id: 'MXN',
             unit_price: baseItem.price
-          }
-        ];
-
-        let total = baseItem.price;
-
-        if (bebidaId && OFFICIAL_PRICES[bebidaId] && bebidaId !== 'sin-bebida') {
-          const bebidaItem = OFFICIAL_PRICES[bebidaId];
-          items.push({
-            title: bebidaItem.title,
-            quantity: 1,
-            currency_id: 'MXN',
-            unit_price: bebidaItem.price
           });
-          total += bebidaItem.price;
+          total += baseItem.price;
+
+          if (bebidaId && OFFICIAL_PRICES[bebidaId] && bebidaId !== 'sin-bebida') {
+            const bebidaItem = OFFICIAL_PRICES[bebidaId];
+            mpItems.push({
+              title: bebidaItem.title,
+              quantity: 1,
+              currency_id: 'MXN',
+              unit_price: bebidaItem.price
+            });
+            total += bebidaItem.price;
+          }
         }
 
         const orderId = `LMZ-${Date.now().toString().slice(-6)}`;
 
         const preferenceData = {
-          items: items,
+          items: mpItems,
           payer: {
             name: customer?.name || 'Cliente Los Mezquites',
             phone: { number: customer?.phone || '' }

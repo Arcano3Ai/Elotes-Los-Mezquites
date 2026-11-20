@@ -212,106 +212,317 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8. CONFIGURADOR DE PEDIDOS "PARA RECOGER DE PASADA"
+  // 8. CONFIGURADOR DE PEDIDOS "PARA RECOGER DE PASADA" MULTI-PRODUCTO
   const orderForm = document.getElementById('orderForm');
   if (orderForm) {
     const baseRadios = orderForm.querySelectorAll('input[name="baseProduct"]');
     const bebidaRadios = orderForm.querySelectorAll('input[name="bebidaProduct"]');
     const paymentRadios = orderForm.querySelectorAll('input[name="paymentMethod"]');
     
-    const summaryBaseName = document.getElementById('summaryBaseName');
-    const summaryBasePrice = document.getElementById('summaryBasePrice');
-    const summaryBebidaRow = document.getElementById('summaryBebidaRow');
-    const summaryBebidaName = document.getElementById('summaryBebidaName');
-    const summaryBebidaPrice = document.getElementById('summaryBebidaPrice');
+    // Controles de cantidad del paso 2
+    const btnQtyMinus = document.getElementById('btnQtyMinus');
+    const btnQtyPlus = document.getElementById('btnQtyPlus');
+    const itemQtyDisplay = document.getElementById('itemQtyDisplay');
+    const btnAddToCart = document.getElementById('btnAddToCart');
+    
+    // Carrito de compras multi-producto
+    const orderCartBox = document.getElementById('orderCartBox');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const cartCountBadge = document.getElementById('cartCountBadge');
+    const btnClearCart = document.getElementById('btnClearCart');
+    
+    // Elementos de resumen y pago
+    const summaryItemsList = document.getElementById('summaryItemsList');
     const summaryTotalPrice = document.getElementById('summaryTotalPrice');
     const btnSubmitText = document.getElementById('btnSubmitText');
+    const btnSubmitOrder = document.getElementById('btnSubmitOrder');
 
-    let currentBase = { id: 'elote-asado', name: 'Elote Asado', price: 50 };
-    let currentBebida = { id: 'sin-bebida', name: 'Sin bebida', price: 0 };
+    // Estado del configurador
+    let currentQty = 1;
+    let orderCart = [];
     let currentPayment = 'mercadopago';
 
-    const updateCalculations = () => {
-      // 1. Base seleccionada
+    // Manejo del contador de cantidad
+    if (btnQtyMinus && btnQtyPlus && itemQtyDisplay) {
+      btnQtyMinus.addEventListener('click', () => {
+        if (currentQty > 1) {
+          currentQty--;
+          itemQtyDisplay.textContent = currentQty;
+        }
+      });
+
+      btnQtyPlus.addEventListener('click', () => {
+        if (currentQty < 50) {
+          currentQty++;
+          itemQtyDisplay.textContent = currentQty;
+        }
+      });
+    }
+
+    // Obtener datos del producto seleccionado actualmente en los controles
+    const getCurrentlySelectedProduct = () => {
       const checkedBase = orderForm.querySelector('input[name="baseProduct"]:checked');
-      if (checkedBase) {
-        currentBase = {
-          id: checkedBase.value,
-          name: checkedBase.getAttribute('data-name'),
-          price: parseInt(checkedBase.getAttribute('data-price') || '0', 10)
-        };
-      }
+      const baseId = checkedBase ? checkedBase.value : 'elote-asado';
+      const baseName = checkedBase ? checkedBase.getAttribute('data-name') : 'Elote Asado';
+      const basePrice = parseInt(checkedBase ? checkedBase.getAttribute('data-price') || '50' : '50', 10);
 
-      // 2. Bebida seleccionada
+      const checkedChile = orderForm.querySelector('input[name="chileLevel"]:checked')?.value || 'Normal';
+      const checkedExtras = [];
+      orderForm.querySelectorAll('input[name="extras"]:checked').forEach(cb => {
+        checkedExtras.push(cb.value);
+      });
+      const orderNotes = document.getElementById('orderNotes')?.value.trim() || '';
+
+      return {
+        id: baseId,
+        name: baseName,
+        price: basePrice,
+        quantity: currentQty,
+        chile: checkedChile,
+        extras: checkedExtras,
+        notes: orderNotes
+      };
+    };
+
+    // Obtener bebida actualmente seleccionada
+    const getCurrentlySelectedBebida = () => {
       const checkedBebida = orderForm.querySelector('input[name="bebidaProduct"]:checked');
-      if (checkedBebida) {
-        currentBebida = {
-          id: checkedBebida.value,
-          name: checkedBebida.getAttribute('data-name'),
-          price: parseInt(checkedBebida.getAttribute('data-price') || '0', 10)
-        };
-      }
+      if (!checkedBebida) return null;
+      const bId = checkedBebida.value;
+      if (bId === 'sin-bebida') return null;
+      return {
+        id: bId,
+        name: checkedBebida.getAttribute('data-name') || 'Bebida',
+        price: parseInt(checkedBebida.getAttribute('data-price') || '0', 10),
+        quantity: 1,
+        chile: 'N/A',
+        extras: [],
+        notes: 'Bien fría'
+      };
+    };
 
-      // 3. Método de pago
+    // Renderizar lista del carrito y actualizar totales
+    const renderCart = () => {
+      // Método de pago
       const checkedPayment = orderForm.querySelector('input[name="paymentMethod"]:checked');
       if (checkedPayment) {
         currentPayment = checkedPayment.value;
       }
 
-      // 4. Actualizar interfaz de resumen
-      const total = currentBase.price + currentBebida.price;
-      if (summaryBaseName) summaryBaseName.textContent = currentBase.name;
-      if (summaryBasePrice) summaryBasePrice.textContent = `$${currentBase.price} MXN`;
+      let total = 0;
+      let totalItemsCount = 0;
 
-      if (summaryBebidaRow) {
-        if (currentBebida.price > 0) {
-          summaryBebidaRow.style.display = 'flex';
-          if (summaryBebidaName) summaryBebidaName.textContent = currentBebida.name;
-          if (summaryBebidaPrice) summaryBebidaPrice.textContent = `$${currentBebida.price} MXN`;
-        } else {
-          summaryBebidaRow.style.display = 'none';
+      if (orderCart.length === 0) {
+        // Carrito vacío: mostramos preview del producto que está configurando actualmente
+        const preview = getCurrentlySelectedProduct();
+        const bebida = getCurrentlySelectedBebida();
+        const previewTotal = (preview.price * preview.quantity) + (bebida ? bebida.price : 0);
+
+        if (cartItemsContainer) {
+          cartItemsContainer.innerHTML = `
+            <div class="cart-empty-notice" style="padding: 1rem; text-align: center; color: var(--color-text-muted); font-size: 0.95rem;">
+              <p style="margin: 0 0 0.5rem 0;">🛒 <em>Aún no has agregado productos con el botón.</em></p>
+              <p style="margin: 0; font-size: 0.85rem;">Puedes hacer clic en <strong>"AGREGAR ESTE PRODUCTO AL PEDIDO"</strong> para armar una orden con varios elotes, botanas y bebidas.</p>
+            </div>
+          `;
         }
+
+        if (cartCountBadge) cartCountBadge.textContent = '0 productos';
+
+        if (summaryItemsList) {
+          summaryItemsList.innerHTML = `
+            <div class="summary-row">
+              <span>${preview.quantity}x ${preview.name} <small style="color:var(--color-text-muted)">(${preview.chile})</small></span>
+              <span class="summary-val">$${preview.price * preview.quantity} MXN</span>
+            </div>
+            ${bebida ? `
+            <div class="summary-row">
+              <span>1x ${bebida.name}</span>
+              <span class="summary-val">$${bebida.price} MXN</span>
+            </div>` : ''}
+          `;
+        }
+
+        if (summaryTotalPrice) summaryTotalPrice.textContent = `$${previewTotal} MXN`;
+        if (btnSubmitText) {
+          btnSubmitText.textContent = currentPayment === 'mercadopago'
+            ? `PAGAR CON MERCADO PAGO ($${previewTotal})`
+            : `CONFIRMAR Y PAGAR AL RECOGER ($${previewTotal})`;
+        }
+        return;
       }
 
-      if (summaryTotalPrice) summaryTotalPrice.textContent = `$${total} MXN`;
-      if (btnSubmitText) {
-        if (currentPayment === 'mercadopago') {
-          btnSubmitText.textContent = `PAGAR CON MERCADO PAGO ($${total})`;
-        } else {
-          btnSubmitText.textContent = `CONFIRMAR Y PAGAR AL RECOGER ($${total})`;
+      // Si hay productos en el carrito
+      if (cartItemsContainer) {
+        cartItemsContainer.innerHTML = '';
+      }
+
+      let summaryHtml = '';
+
+      orderCart.forEach((item, index) => {
+        const itemSubtotal = item.price * item.quantity;
+        total += itemSubtotal;
+        totalItemsCount += item.quantity;
+
+        // Render fila en carrito
+        if (cartItemsContainer) {
+          const row = document.createElement('div');
+          row.className = 'cart-item-row';
+          row.innerHTML = `
+            <div class="cart-item-info">
+              <span class="cart-item-title"><strong>${item.quantity}x</strong> ${item.name}</span>
+              <span class="cart-item-details">
+                ${item.chile !== 'N/A' ? `🌶️ ${item.chile}` : ''}
+                ${item.extras && item.extras.length > 0 ? ` • ${item.extras.join(', ')}` : ''}
+                ${item.notes ? ` • <em>"${item.notes}"</em>` : ''}
+              </span>
+            </div>
+            <div class="cart-item-price-wrap">
+              <span class="cart-item-subtotal">$${itemSubtotal} MXN</span>
+              <button type="button" class="btn-remove-item" data-index="${index}" title="Eliminar este producto" aria-label="Eliminar producto">
+                ✕
+              </button>
+            </div>
+          `;
+          cartItemsContainer.appendChild(row);
         }
+
+        // Fila en resumen de cobro
+        summaryHtml += `
+          <div class="summary-row">
+            <span>${item.quantity}x ${item.name}</span>
+            <span class="summary-val">$${itemSubtotal} MXN</span>
+          </div>
+        `;
+      });
+
+      // Asignar listeners a los botones de eliminar del carrito
+      if (cartItemsContainer) {
+        const removeButtons = cartItemsContainer.querySelectorAll('.btn-remove-item');
+        removeButtons.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.currentTarget.getAttribute('data-index'), 10);
+            if (!isNaN(idx) && idx >= 0 && idx < orderCart.length) {
+              const removed = orderCart.splice(idx, 1)[0];
+              showToast(`Eliminado: ${removed.name}`);
+              renderCart();
+            }
+          });
+        });
+      }
+
+      if (cartCountBadge) {
+        cartCountBadge.textContent = `${totalItemsCount} ${totalItemsCount === 1 ? 'producto' : 'productos'}`;
+      }
+
+      if (summaryItemsList) {
+        summaryItemsList.innerHTML = summaryHtml;
+      }
+
+      if (summaryTotalPrice) {
+        summaryTotalPrice.textContent = `$${total} MXN`;
+      }
+
+      if (btnSubmitText) {
+        btnSubmitText.textContent = currentPayment === 'mercadopago'
+          ? `PAGAR CON MERCADO PAGO ($${total})`
+          : `CONFIRMAR Y PAGAR AL RECOGER ($${total})`;
       }
     };
 
-    baseRadios.forEach(r => r.addEventListener('change', updateCalculations));
-    bebidaRadios.forEach(r => r.addEventListener('change', updateCalculations));
-    paymentRadios.forEach(r => r.addEventListener('change', updateCalculations));
-    updateCalculations();
+    // Botón Agregar al Carrito
+    if (btnAddToCart) {
+      btnAddToCart.addEventListener('click', () => {
+        const currentProd = getCurrentlySelectedProduct();
+        orderCart.push(currentProd);
 
-    // Procesar envío del formulario
+        // Si seleccionó una bebida en el paso 3, agregarla también
+        const bebida = getCurrentlySelectedBebida();
+        if (bebida) {
+          orderCart.push(bebida);
+          // Resetear radio de bebida a sin-bebida
+          const sinBebidaRadio = orderForm.querySelector('input[name="bebidaProduct"][value="sin-bebida"]');
+          if (sinBebidaRadio) sinBebidaRadio.checked = true;
+        }
+
+        // Resetear cantidad a 1 y notas
+        currentQty = 1;
+        if (itemQtyDisplay) itemQtyDisplay.textContent = '1';
+        const notesInput = document.getElementById('orderNotes');
+        if (notesInput) notesInput.value = '';
+
+        showToast(`¡Agregado al pedido! (${currentProd.quantity}x ${currentProd.name})`);
+        renderCart();
+
+        // Scroll suave al contenedor del carrito para feedback inmediato
+        if (orderCartBox) {
+          orderCartBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    }
+
+    // Botón Vaciar Carrito
+    if (btnClearCart) {
+      btnClearCart.addEventListener('click', () => {
+        if (orderCart.length > 0) {
+          orderCart = [];
+          showToast('Pedido vaciado');
+          renderCart();
+        }
+      });
+    }
+
+    // Listeners de cambio en radios
+    baseRadios.forEach(r => r.addEventListener('change', renderCart));
+    bebidaRadios.forEach(r => r.addEventListener('change', renderCart));
+    paymentRadios.forEach(r => r.addEventListener('change', renderCart));
+    renderCart();
+
+    // Procesar envío del formulario (Checkout)
     orderForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const custName = document.getElementById('custName')?.value.trim();
       const custPhone = document.getElementById('custPhone')?.value.trim();
-      const pickupTime = document.getElementById('pickupTime')?.value;
-      const orderNotes = document.getElementById('orderNotes')?.value.trim();
-      const checkedChile = orderForm.querySelector('input[name="chileLevel"]:checked')?.value || 'Normal';
-
-      const checkedExtras = [];
-      orderForm.querySelectorAll('input[name="extras"]:checked').forEach(cb => {
-        checkedExtras.push(cb.value);
-      });
+      const pickupTime = document.getElementById('pickupTime')?.value || 'En 15 minutos';
 
       if (!custName || !custPhone) {
         alert('Por favor ingresa tu nombre y teléfono para tener tu pedido listo.');
         return;
       }
 
-      const total = currentBase.price + currentBebida.price;
+      // Si el carrito está vacío, agregamos automáticamente la selección actual para no frenar la compra
+      if (orderCart.length === 0) {
+        orderCart.push(getCurrentlySelectedProduct());
+        const b = getCurrentlySelectedBebida();
+        if (b) orderCart.push(b);
+      }
+
+      // Calcular total de la orden
+      let total = 0;
+      orderCart.forEach(item => {
+        total += item.price * item.quantity;
+      });
+
       const orderId = `LMZ-${Math.floor(1000 + Math.random() * 9000)}`;
 
-      // Construir mensaje estructurado para WhatsApp
+      // Construir desglose estructurado de productos para WhatsApp
+      const itemsTextLines = orderCart.map((item, idx) => {
+        const itemTotal = item.price * item.quantity;
+        let line = `${idx + 1}. *${item.quantity}x ${item.name}* ($${itemTotal} MXN)`;
+        if (item.chile && item.chile !== 'N/A') {
+          line += `\n   🌶️ Chile: ${item.chile}`;
+        }
+        if (item.extras && item.extras.length > 0) {
+          line += `\n   🧀 Preparación: ${item.extras.join(', ')}`;
+        }
+        if (item.notes) {
+          line += `\n   📝 Nota: ${item.notes}`;
+        }
+        return line;
+      });
+
+      // Construir mensaje estructurado completo para WhatsApp
       const waMsgLines = [
         `¡Hola Elotes Los Mezquites! Quiero hacer un pedido *PARA RECOGER DE PASADA*:`,
         ``,
@@ -320,37 +531,38 @@ document.addEventListener('DOMContentLoaded', () => {
         `📞 *Teléfono:* ${custPhone}`,
         `⏱️ *Tiempo estimado de llegada:* ${pickupTime}`,
         ``,
-        `🌽 *Antojo Principal:* ${currentBase.name} ($${currentBase.price} MXN)`,
-        `🌶️ *Nivel de chile:* ${checkedChile}`,
-        `🧀 *Ingredientes:* ${checkedExtras.join(', ') || 'Tradicional'}`,
-        orderNotes ? `📝 *Notas especiales:* ${orderNotes}` : null,
-        currentBebida.price > 0 ? `🥤 *Bebida:* ${currentBebida.name} ($${currentBebida.price} MXN)` : null,
+        `🌽 *DETALLE DEL PEDIDO:*`,
+        itemsTextLines.join('\n\n'),
         ``,
         `💳 *Método de pago:* ${currentPayment === 'mercadopago' ? 'Mercado Pago (En línea)' : 'Pagar en efectivo al llegar'}`,
         `💰 *TOTAL A PAGAR:* $${total} MXN`,
         ``,
-        `_Favor de confirmar que recibieron mi orden para tenerla calientita. ¡Gracias!_`
-      ].filter(line => line !== null);
+        `_Favor de confirmar que recibieron mi orden para tenerla calientita. ¡Muchas gracias!_`
+      ];
 
       const encodedWaMsg = encodeURIComponent(waMsgLines.join('\n'));
       const waUrl = `https://wa.me/528121912778?text=${encodedWaMsg}`;
 
-      // Si seleccionó Mercado Pago, intentar generar preferencia en el backend
+      // Si seleccionó Mercado Pago, generar preferencia en el backend
       if (currentPayment === 'mercadopago') {
-        const btnSubmit = document.getElementById('btnSubmitOrder');
-        const originalText = btnSubmitText.textContent;
-        btnSubmitText.textContent = 'Conectando con Mercado Pago...';
+        const originalText = btnSubmitText ? btnSubmitText.textContent : '';
+        if (btnSubmitText) btnSubmitText.textContent = 'Conectando con Mercado Pago...';
 
         try {
           const res = await fetch('/api/create-preference', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              baseId: currentBase.id,
-              bebidaId: currentBebida.id,
+              items: orderCart.map(item => ({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                chile: item.chile,
+                extras: item.extras,
+                notes: item.notes
+              })),
               customer: { name: custName, phone: custPhone },
-              extras: checkedExtras,
-              chile: checkedChile,
               time: pickupTime
             })
           });
@@ -358,7 +570,6 @@ document.addEventListener('DOMContentLoaded', () => {
           if (res.ok) {
             const data = await res.json();
             if (data.initPoint) {
-              // Notificar al cliente y abrir pasarela
               showToast(`Orden #${orderId} creada. Abriendo Mercado Pago...`);
               setTimeout(() => {
                 window.location.href = data.initPoint;
@@ -370,9 +581,9 @@ document.addEventListener('DOMContentLoaded', () => {
           console.warn('Backend serverless no disponible en modo estático, usando checkout asistido por WhatsApp:', err);
         }
 
-        // Fallback: Si no hay servidor activo en localhost, enviar orden por WhatsApp para pago con link de MP
-        btnSubmitText.textContent = originalText;
-        showToast(`Orden #${orderId} registrada con éxito`);
+        // Fallback si corre como sitio puramente estático o sin servidor node activo:
+        if (btnSubmitText) btnSubmitText.textContent = originalText;
+        showToast(`Orden #${orderId} registrada. Abriendo WhatsApp...`);
         setTimeout(() => {
           window.open(waUrl, '_blank');
         }, 600);
