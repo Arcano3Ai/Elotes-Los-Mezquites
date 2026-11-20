@@ -44,28 +44,39 @@ def process_all_menu_images():
     im_takis_opt.save(os.path.join(out_menu, 'takis-elote.jpg'), 'JPEG', quality=90, subsampling=0)
     im_takis_opt.save(os.path.join(out_menu, 'takis-elote.webp'), 'WEBP', quality=85)
 
-    # 5. Doritos con Elote (Vertical -> Card 1200x800 con presentación impecable)
+    # 5. Doritos con Elote (Card 1200x800 panorámica impecable y continua sin barras oscuras)
     print("Procesando Doritos con Elote...")
-    im_doritos = Image.open(os.path.join(menu_dir, 'doritosconelote.jpg')).convert('RGB')
-    # Versión completa original para modal lightbox
-    im_doritos.save(os.path.join(out_menu, 'doritos-elote-full.jpg'), 'JPEG', quality=92, subsampling=0)
+    im_doritos_raw = Image.open(os.path.join(menu_dir, 'doritosconelote.jpg')).convert('RGB')
+    im_doritos_raw.save(os.path.join(out_menu, 'doritos-elote-full.jpg'), 'JPEG', quality=92, subsampling=0)
+
+    # Base horizontal 1920x1280 del mismo entorno y mesa rústica
+    bg_base = Image.open(os.path.join(menu_dir, 'tostitosconelote.jpg')).convert('RGB')
     
-    # Para la card: lienzo 1200x800 que contiene la imagen vertical completa sin cortar la bolsa ni el elote,
-    # con fondo desenfocado y viñeta sutil del mismo ambiente rústico.
-    bg = ImageOps.fit(im_doritos, (1200, 800), Image.Resampling.LANCZOS).filter(ImageFilter.GaussianBlur(radius=25))
-    # Diminuir brillo del fondo para que resalte el producto al centro
-    from PIL import ImageEnhance
-    enhancer = ImageEnhance.Brightness(bg)
-    bg = enhancer.enhance(0.55)
-    
-    # Escalar la imagen de doritos para que entre en 800 de alto
-    h_target = 800
-    w_target = int(im_doritos.width * (h_target / im_doritos.height))
-    fg = im_doritos.resize((w_target, h_target), Image.Resampling.LANCZOS)
-    x_pos = (1200 - w_target) // 2
-    bg.paste(fg, (x_pos, 0))
-    bg.save(os.path.join(out_menu, 'doritos-elote.jpg'), 'JPEG', quality=90, subsampling=0)
-    bg.save(os.path.join(out_menu, 'doritos-elote.webp'), 'WEBP', quality=85)
+    # Recorte del encuadre clave de Doritos: desde parte superior de bolsa hasta tazón y mesa (y=380 a 1880)
+    crop_d = im_doritos_raw.crop((0, 380, im_doritos_raw.width, 1880))
+    target_h = 1280
+    target_w = 1920
+    fg_w = int(crop_d.width * (target_h / crop_d.height)) # 1119 px
+    fg_doritos = crop_d.resize((fg_w, target_h), Image.Resampling.LANCZOS)
+    x_pos = (target_w - fg_w) // 2
+
+    # Máscara con desvanecimiento suave (feathering) en los bordes izquierdo y derecho
+    import numpy as np
+    mask = np.ones((target_h, fg_w), dtype=np.float32)
+    feather = 100
+    for x in range(feather):
+        alpha = 0.5 - 0.5 * np.cos(np.pi * x / feather)
+        mask[:, x] = alpha
+        mask[:, fg_w - 1 - x] = alpha
+    mask_img = Image.fromarray((mask * 255).astype(np.uint8))
+
+    canvas_doritos = bg_base.copy()
+    canvas_doritos.paste(fg_doritos, (x_pos, 0), mask_img)
+
+    # Versión para card en 1200x800 idéntica a Conchitas y Tostitos
+    doritos_card = canvas_doritos.resize((1200, 800), Image.Resampling.LANCZOS)
+    doritos_card.save(os.path.join(out_menu, 'doritos-elote.jpg'), 'JPEG', quality=90, subsampling=0)
+    doritos_card.save(os.path.join(out_menu, 'doritos-elote.webp'), 'WEBP', quality=85)
 
     # 6. Vaso Chico (1600x1600)
     print("Procesando Vaso Chico...")

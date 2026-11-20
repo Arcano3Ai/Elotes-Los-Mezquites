@@ -29,6 +29,8 @@
   --c-maiz-glow: rgba(244, 181, 45, 0.25);
   --c-whatsapp: #25D366;
   --c-whatsapp-hover: #1EBE5D;
+  --c-facebook: #1877F2;
+  --c-facebook-hover: #166FE5;
 
   /* Tipografías */
   --font-serif: 'Playfair Display', Georgia, serif;
@@ -250,6 +252,72 @@ ul {
 .btn-whatsapp-outline:hover {
   background: var(--c-whatsapp);
   color: #FFFFFF;
+}
+
+/* Botón de Facebook en Header (Desktop) */
+.btn-header-facebook {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(24, 119, 242, 0.12);
+  border: 1px solid rgba(24, 119, 242, 0.45);
+  color: #8bbefa;
+  padding: 0.62rem 1.1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: 6px;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: all var(--transition-base);
+}
+
+.btn-header-facebook svg {
+  flex-shrink: 0;
+  color: #1877F2;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+.btn-header-facebook:hover {
+  background: var(--c-facebook);
+  border-color: var(--c-facebook);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(24, 119, 242, 0.45);
+}
+
+.btn-header-facebook:hover svg {
+  color: #FFFFFF;
+  transform: scale(1.08);
+}
+
+/* Botón de Facebook General / Acciones / Bloques */
+.btn-facebook {
+  background: linear-gradient(135deg, #1877F2 0%, #0d65d9 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 4px 14px rgba(24, 119, 242, 0.35);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  transition: all var(--transition-base);
+}
+
+.btn-facebook:hover {
+  background: linear-gradient(135deg, #2883ff 0%, #166fe5 100%);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(24, 119, 242, 0.55);
+}
+
+.btn-facebook svg {
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+
+.btn-facebook:hover svg {
+  transform: scale(1.1);
 }
 
 .btn-copy-address {
@@ -2627,6 +2695,33 @@ ul {
   opacity: 0.85;
 }
 
+.footer-facebook-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #8bbefa;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 0.65rem;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  text-decoration: none;
+}
+
+.footer-facebook-link svg {
+  flex-shrink: 0;
+  color: #1877F2;
+  transition: transform var(--transition-fast);
+}
+
+.footer-facebook-link:hover {
+  color: #FFFFFF;
+  transform: translateX(3px);
+}
+
+.footer-facebook-link:hover svg {
+  transform: scale(1.15);
+}
+
 .footer-divider {
   height: 1px;
   background: rgba(245, 232, 206, 0.1);
@@ -2880,7 +2975,8 @@ ul {
 /* TABLETS Y PANTALLAS MEDIANAS (<= 992px) */
 @media (max-width: 992px) {
   .nav-desktop,
-  .header-actions .btn-header {
+  .header-actions .btn-header,
+  .header-actions .btn-header-facebook {
     display: none;
   }
 
