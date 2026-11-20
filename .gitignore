@@ -19,3 +19,9 @@ env/
 # Credenciales y variables locales
 .env
 .env.local
+
+# Capturas temporales y borradores sueltos en raíz
+image_*.jpg
+ELOTES LOS MEZQUITES_Menu2.png
+vaso chico unicel.png
+vaso medio litro.jpg
