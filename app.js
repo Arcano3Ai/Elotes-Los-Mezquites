@@ -212,96 +212,183 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 8. CONFIGURADOR DE PEDIDOS "PARA RECOGER DE PASADA" MULTI-PRODUCTO
+  // 8. CONFIGURADOR Y CHECKOUT UNIFICADO DESDE EL MENÚ
   const orderForm = document.getElementById('orderForm');
   if (orderForm) {
-    const baseRadios = orderForm.querySelectorAll('input[name="baseProduct"]');
-    const bebidaRadios = orderForm.querySelectorAll('input[name="bebidaProduct"]');
     const paymentRadios = orderForm.querySelectorAll('input[name="paymentMethod"]');
     
-    // Controles de cantidad del paso 2
-    const btnQtyMinus = document.getElementById('btnQtyMinus');
-    const btnQtyPlus = document.getElementById('btnQtyPlus');
-    const itemQtyDisplay = document.getElementById('itemQtyDisplay');
-    const btnAddToCart = document.getElementById('btnAddToCart');
-    
-    // Carrito de compras multi-producto
-    const orderCartBox = document.getElementById('orderCartBox');
+    // Elementos de la comanda (carrito)
     const cartItemsContainer = document.getElementById('cartItemsContainer');
     const cartCountBadge = document.getElementById('cartCountBadge');
     const btnClearCart = document.getElementById('btnClearCart');
-    
-    // Elementos de resumen y pago
     const summaryItemsList = document.getElementById('summaryItemsList');
     const summaryTotalPrice = document.getElementById('summaryTotalPrice');
     const btnSubmitText = document.getElementById('btnSubmitText');
-    const btnSubmitOrder = document.getElementById('btnSubmitOrder');
+    const stickyBarCount = document.getElementById('stickyBarCount');
 
-    // Estado del configurador
-    let currentQty = 1;
+    // Modal de personalización de producto
+    const customizerModal = document.getElementById('customizerModal');
+    const customizerBackdrop = document.getElementById('customizerBackdrop');
+    const customizerClose = document.getElementById('customizerClose');
+    const customizerTitle = document.getElementById('customizerTitle');
+    const customizerPriceBadge = document.getElementById('customizerPriceBadge');
+    const customizerNotes = document.getElementById('customizerNotes');
+    const mBtnQtyMinus = document.getElementById('mBtnQtyMinus');
+    const mBtnQtyPlus = document.getElementById('mBtnQtyPlus');
+    const mQtyDisplay = document.getElementById('mQtyDisplay');
+    const mBtnConfirmAdd = document.getElementById('mBtnConfirmAdd');
+    const mBtnAddText = document.getElementById('mBtnAddText');
+
+    // Botones de acción en la carta
+    const openCustomizerButtons = document.querySelectorAll('.btn-open-customizer');
+    const addBebidaButtons = document.querySelectorAll('.btn-add-bebida');
+
+    // Estado del carrito y modal
     let orderCart = [];
     let currentPayment = 'mercadopago';
+    let modalSelectedProduct = null;
+    let modalQty = 1;
 
-    // Manejo del contador de cantidad
-    if (btnQtyMinus && btnQtyPlus && itemQtyDisplay) {
-      btnQtyMinus.addEventListener('click', () => {
-        if (currentQty > 1) {
-          currentQty--;
-          itemQtyDisplay.textContent = currentQty;
+    // Abrir Modal de Personalización
+    const openCustomizer = (product) => {
+      modalSelectedProduct = product;
+      modalQty = 1;
+
+      if (customizerTitle) customizerTitle.textContent = product.name;
+      if (customizerPriceBadge) customizerPriceBadge.textContent = `$${product.price} MXN`;
+      if (mQtyDisplay) mQtyDisplay.textContent = '1';
+      if (customizerNotes) customizerNotes.value = '';
+
+      // Resetear chile a Normal
+      const normalChile = customizerModal.querySelector('input[name="mChile"][value="Normal"]');
+      if (normalChile) normalChile.checked = true;
+
+      // Resetear extras a todos marcados por defecto
+      customizerModal.querySelectorAll('input[name="mExtras"]').forEach(cb => {
+        cb.checked = true;
+      });
+
+      updateModalAddBtn();
+
+      customizerModal.classList.add('active');
+      customizerModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    };
+
+    // Cerrar Modal de Personalización
+    const closeCustomizer = () => {
+      if (!customizerModal) return;
+      customizerModal.classList.remove('active');
+      customizerModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      modalSelectedProduct = null;
+    };
+
+    const updateModalAddBtn = () => {
+      if (!modalSelectedProduct || !mBtnAddText) return;
+      const subtotal = modalSelectedProduct.price * modalQty;
+      mBtnAddText.textContent = `AGREGAR AL PEDIDO ($${subtotal} MXN)`;
+    };
+
+    // Controles de cantidad en el modal
+    if (mBtnQtyMinus && mBtnQtyPlus && mQtyDisplay) {
+      mBtnQtyMinus.addEventListener('click', () => {
+        if (modalQty > 1) {
+          modalQty--;
+          mQtyDisplay.textContent = modalQty;
+          updateModalAddBtn();
         }
       });
 
-      btnQtyPlus.addEventListener('click', () => {
-        if (currentQty < 50) {
-          currentQty++;
-          itemQtyDisplay.textContent = currentQty;
+      mBtnQtyPlus.addEventListener('click', () => {
+        if (modalQty < 50) {
+          modalQty++;
+          mQtyDisplay.textContent = modalQty;
+          updateModalAddBtn();
         }
       });
     }
 
-    // Obtener datos del producto seleccionado actualmente en los controles
-    const getCurrentlySelectedProduct = () => {
-      const checkedBase = orderForm.querySelector('input[name="baseProduct"]:checked');
-      const baseId = checkedBase ? checkedBase.value : 'elote-asado';
-      const baseName = checkedBase ? checkedBase.getAttribute('data-name') : 'Elote Asado';
-      const basePrice = parseInt(checkedBase ? checkedBase.getAttribute('data-price') || '50' : '50', 10);
+    if (customizerClose) customizerClose.addEventListener('click', closeCustomizer);
+    if (customizerBackdrop) customizerBackdrop.addEventListener('click', closeCustomizer);
 
-      const checkedChile = orderForm.querySelector('input[name="chileLevel"]:checked')?.value || 'Normal';
-      const checkedExtras = [];
-      orderForm.querySelectorAll('input[name="extras"]:checked').forEach(cb => {
-        checkedExtras.push(cb.value);
+    // Conectar botones de la carta para abrir el modal
+    openCustomizerButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = btn.getAttribute('data-id');
+        const name = btn.getAttribute('data-name');
+        const price = parseInt(btn.getAttribute('data-price') || '0', 10);
+        openCustomizer({ id, name, price });
       });
-      const orderNotes = document.getElementById('orderNotes')?.value.trim() || '';
+    });
 
-      return {
-        id: baseId,
-        name: baseName,
-        price: basePrice,
-        quantity: currentQty,
-        chile: checkedChile,
-        extras: checkedExtras,
-        notes: orderNotes
-      };
-    };
+    // Confirmar agregar producto desde el modal
+    if (mBtnConfirmAdd) {
+      mBtnConfirmAdd.addEventListener('click', () => {
+        if (!modalSelectedProduct) return;
 
-    // Obtener bebida actualmente seleccionada
-    const getCurrentlySelectedBebida = () => {
-      const checkedBebida = orderForm.querySelector('input[name="bebidaProduct"]:checked');
-      if (!checkedBebida) return null;
-      const bId = checkedBebida.value;
-      if (bId === 'sin-bebida') return null;
-      return {
-        id: bId,
-        name: checkedBebida.getAttribute('data-name') || 'Bebida',
-        price: parseInt(checkedBebida.getAttribute('data-price') || '0', 10),
-        quantity: 1,
-        chile: 'N/A',
-        extras: [],
-        notes: 'Bien fría'
-      };
-    };
+        const checkedChile = customizerModal.querySelector('input[name="mChile"]:checked')?.value || 'Normal';
+        const checkedExtras = [];
+        customizerModal.querySelectorAll('input[name="mExtras"]:checked').forEach(cb => {
+          checkedExtras.push(cb.value);
+        });
+        const notes = customizerNotes ? customizerNotes.value.trim() : '';
 
-    // Renderizar lista del carrito y actualizar totales
+        orderCart.push({
+          id: modalSelectedProduct.id,
+          name: modalSelectedProduct.name,
+          price: modalSelectedProduct.price,
+          quantity: modalQty,
+          chile: checkedChile,
+          extras: checkedExtras,
+          notes: notes
+        });
+
+        showToast(`¡Agregado al pedido! (${modalQty}x ${modalSelectedProduct.name})`);
+        closeCustomizer();
+        renderCart();
+
+        // Si es el primer producto, hacer scroll suave a la comanda
+        const orderSection = document.getElementById('pedir');
+        if (orderCart.length === 1 && orderSection) {
+          setTimeout(() => {
+            orderSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 350);
+        }
+      });
+    }
+
+    // Botones directos para agregar bebidas desde la carta
+    addBebidaButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = btn.getAttribute('data-id');
+        const name = btn.getAttribute('data-name');
+        const price = parseInt(btn.getAttribute('data-price') || '0', 10);
+
+        // Si ya está esa bebida en el carrito, incrementar cantidad
+        const existing = orderCart.find(item => item.id === id);
+        if (existing) {
+          existing.quantity++;
+        } else {
+          orderCart.push({
+            id: id,
+            name: name,
+            price: price,
+            quantity: 1,
+            chile: 'N/A',
+            extras: [],
+            notes: 'Bien fría'
+          });
+        }
+
+        showToast(`¡Bebida agregada! (1x ${name})`);
+        renderCart();
+      });
+    });
+
+    // Renderizar comanda dinámica y calcular totales
     const renderCart = () => {
       // Método de pago
       const checkedPayment = orderForm.querySelector('input[name="paymentMethod"]:checked');
@@ -313,42 +400,31 @@ document.addEventListener('DOMContentLoaded', () => {
       let totalItemsCount = 0;
 
       if (orderCart.length === 0) {
-        // Carrito vacío: mostramos preview del producto que está configurando actualmente
-        const preview = getCurrentlySelectedProduct();
-        const bebida = getCurrentlySelectedBebida();
-        const previewTotal = (preview.price * preview.quantity) + (bebida ? bebida.price : 0);
-
         if (cartItemsContainer) {
           cartItemsContainer.innerHTML = `
-            <div class="cart-empty-notice" style="padding: 1rem; text-align: center; color: var(--color-text-muted); font-size: 0.95rem;">
-              <p style="margin: 0 0 0.5rem 0;">🛒 <em>Aún no has agregado productos con el botón.</em></p>
-              <p style="margin: 0; font-size: 0.85rem;">Puedes hacer clic en <strong>"AGREGAR ESTE PRODUCTO AL PEDIDO"</strong> para armar una orden con varios elotes, botanas y bebidas.</p>
+            <div class="cart-empty-notice" style="padding: 1.8rem 1rem; text-align: center; color: var(--color-text-muted);">
+              <p style="margin: 0 0 0.5rem 0; font-size: 1.05rem; font-weight: 600; color: #fff;">🛒 Tu comanda está vacía</p>
+              <p style="margin: 0 0 1rem 0; font-size: 0.9rem;">Elige arriba en el menú tu elote, vaso o botana favorita y pulsa <strong>"Ordenar"</strong>.</p>
+              <a href="#menu" class="btn btn-secondary" style="padding: 0.55rem 1.25rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+                <span>🌽 Ver la carta completa</span>
+              </a>
             </div>
           `;
         }
 
         if (cartCountBadge) cartCountBadge.textContent = '0 productos';
-
         if (summaryItemsList) {
           summaryItemsList.innerHTML = `
-            <div class="summary-row">
-              <span>${preview.quantity}x ${preview.name} <small style="color:var(--color-text-muted)">(${preview.chile})</small></span>
-              <span class="summary-val">$${preview.price * preview.quantity} MXN</span>
+            <div class="summary-row" style="color: var(--color-text-muted);">
+              <span>Aún no hay productos</span>
+              <span class="summary-val">$0 MXN</span>
             </div>
-            ${bebida ? `
-            <div class="summary-row">
-              <span>1x ${bebida.name}</span>
-              <span class="summary-val">$${bebida.price} MXN</span>
-            </div>` : ''}
           `;
         }
 
-        if (summaryTotalPrice) summaryTotalPrice.textContent = `$${previewTotal} MXN`;
-        if (btnSubmitText) {
-          btnSubmitText.textContent = currentPayment === 'mercadopago'
-            ? `PAGAR CON MERCADO PAGO ($${previewTotal})`
-            : `CONFIRMAR Y PAGAR AL RECOGER ($${previewTotal})`;
-        }
+        if (summaryTotalPrice) summaryTotalPrice.textContent = '$0 MXN';
+        if (stickyBarCount) stickyBarCount.textContent = '0 productos agregados';
+        if (btnSubmitText) btnSubmitText.textContent = 'SELECCIONA PRODUCTOS DEL MENÚ';
         return;
       }
 
@@ -364,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
         total += itemSubtotal;
         totalItemsCount += item.quantity;
 
-        // Render fila en carrito
+        // Fila en comanda
         if (cartItemsContainer) {
           const row = document.createElement('div');
           row.className = 'cart-item-row';
@@ -387,7 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
           cartItemsContainer.appendChild(row);
         }
 
-        // Fila en resumen de cobro
+        // Fila en resumen de pago
         summaryHtml += `
           <div class="summary-row">
             <span>${item.quantity}x ${item.name}</span>
@@ -396,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
       });
 
-      // Asignar listeners a los botones de eliminar del carrito
+      // Listeners de eliminación
       if (cartItemsContainer) {
         const removeButtons = cartItemsContainer.querySelectorAll('.btn-remove-item');
         removeButtons.forEach(btn => {
@@ -423,6 +499,10 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryTotalPrice.textContent = `$${total} MXN`;
       }
 
+      if (stickyBarCount) {
+        stickyBarCount.textContent = `${totalItemsCount} ${totalItemsCount === 1 ? 'producto' : 'productos'} • $${total} MXN`;
+      }
+
       if (btnSubmitText) {
         btnSubmitText.textContent = currentPayment === 'mercadopago'
           ? `PAGAR CON MERCADO PAGO ($${total})`
@@ -430,57 +510,38 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // Botón Agregar al Carrito
-    if (btnAddToCart) {
-      btnAddToCart.addEventListener('click', () => {
-        const currentProd = getCurrentlySelectedProduct();
-        orderCart.push(currentProd);
-
-        // Si seleccionó una bebida en el paso 3, agregarla también
-        const bebida = getCurrentlySelectedBebida();
-        if (bebida) {
-          orderCart.push(bebida);
-          // Resetear radio de bebida a sin-bebida
-          const sinBebidaRadio = orderForm.querySelector('input[name="bebidaProduct"][value="sin-bebida"]');
-          if (sinBebidaRadio) sinBebidaRadio.checked = true;
-        }
-
-        // Resetear cantidad a 1 y notas
-        currentQty = 1;
-        if (itemQtyDisplay) itemQtyDisplay.textContent = '1';
-        const notesInput = document.getElementById('orderNotes');
-        if (notesInput) notesInput.value = '';
-
-        showToast(`¡Agregado al pedido! (${currentProd.quantity}x ${currentProd.name})`);
-        renderCart();
-
-        // Scroll suave al contenedor del carrito para feedback inmediato
-        if (orderCartBox) {
-          orderCartBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      });
-    }
-
-    // Botón Vaciar Carrito
+    // Botón Vaciar Comanda
     if (btnClearCart) {
       btnClearCart.addEventListener('click', () => {
         if (orderCart.length > 0) {
           orderCart = [];
-          showToast('Pedido vaciado');
+          showToast('Comanda vaciada');
           renderCart();
         }
       });
     }
 
-    // Listeners de cambio en radios
-    baseRadios.forEach(r => r.addEventListener('change', renderCart));
-    bebidaRadios.forEach(r => r.addEventListener('change', renderCart));
+    // Tecla Escape para cerrar también el modal de personalización
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && customizerModal && customizerModal.classList.contains('active')) {
+        closeCustomizer();
+      }
+    });
+
+    // Listeners de método de pago
     paymentRadios.forEach(r => r.addEventListener('change', renderCart));
     renderCart();
 
     // Procesar envío del formulario (Checkout)
     orderForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      if (orderCart.length === 0) {
+        alert('Por favor selecciona al menos un elote o botana desde el menú arriba antes de confirmar tu pedido.');
+        const menuSec = document.getElementById('menu');
+        if (menuSec) menuSec.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
 
       const custName = document.getElementById('custName')?.value.trim();
       const custPhone = document.getElementById('custPhone')?.value.trim();
@@ -489,13 +550,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!custName || !custPhone) {
         alert('Por favor ingresa tu nombre y teléfono para tener tu pedido listo.');
         return;
-      }
-
-      // Si el carrito está vacío, agregamos automáticamente la selección actual para no frenar la compra
-      if (orderCart.length === 0) {
-        orderCart.push(getCurrentlySelectedProduct());
-        const b = getCurrentlySelectedBebida();
-        if (b) orderCart.push(b);
       }
 
       // Calcular total de la orden
@@ -581,7 +635,7 @@ document.addEventListener('DOMContentLoaded', () => {
           console.warn('Backend serverless no disponible en modo estático, usando checkout asistido por WhatsApp:', err);
         }
 
-        // Fallback si corre como sitio puramente estático o sin servidor node activo:
+        // Fallback si corre como sitio puramente estático:
         if (btnSubmitText) btnSubmitText.textContent = originalText;
         showToast(`Orden #${orderId} registrada. Abriendo WhatsApp...`);
         setTimeout(() => {

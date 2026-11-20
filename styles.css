@@ -3592,3 +3592,208 @@ ul {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ==========================================================================
+   MODAL DE PERSONALIZACIÓN DE PRODUCTO DIRECTO DESDE EL MENÚ
+   ========================================================================== */
+.customizer-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.customizer-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.customizer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 8, 4, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.customizer-dialog {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #1e130c;
+  border: 1px solid rgba(244, 181, 45, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(20px) scale(0.96);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.customizer-modal.active .customizer-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.customizer-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--color-crema);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.customizer-close:hover {
+  background: rgba(224, 75, 41, 0.85);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.customizer-header {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(244, 181, 45, 0.08) 0%, transparent 100%);
+}
+
+.customizer-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-maiz);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.customizer-title {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.25;
+}
+
+.customizer-price-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(244, 181, 45, 0.15);
+  border: 1px solid var(--color-maiz);
+  color: var(--color-maiz);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 999px;
+}
+
+.customizer-body {
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.customizer-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.customizer-block-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f1dfcf;
+}
+
+.customizer-qty-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.customizer-qty-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.customizer-footer {
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 8, 4, 0.4);
+}
+
+.btn-modal-add {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+  padding: 0.9rem 1.5rem;
+}
+
+/* ==========================================================================
+   BOTONES DE BEBIDAS EN LA CARTA Y ACCIONES DE COMANDA
+   ========================================================================== */
+.bebida-action-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.btn-add-bebida {
+  padding: 0.35rem 0.75rem;
+  background: rgba(244, 181, 45, 0.15);
+  border: 1px solid rgba(244, 181, 45, 0.4);
+  color: var(--color-maiz);
+  font-weight: 700;
+  font-size: 0.78rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-add-bebida:hover {
+  background: var(--color-maiz);
+  color: #120904;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(244, 181, 45, 0.3);
+}
+
+.cart-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-add-more-menu {
+  font-size: 0.8rem;
+  color: var(--color-maiz);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.btn-add-more-menu:hover {
+  color: #fff;
+}
